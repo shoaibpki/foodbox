@@ -1,1 +1,111 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
+body{
+    font-family: 'Bellefair', serif;
+}
+
+nav{
+    background-color: black;
+    width: 100%;
+}
+nav ul {
+    margin: 0;
+    padding: 0px;
+    overflow: hidden;
+}
+nav ul li{
+    float: left;
+    /* display: inline-block; */
+    list-style: none;
+    width: 150px;
+}
+nav a{
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    color: wheat;
+    font-size: large;
+    text-align: center;
+    border-right: 1px solid white;
+}
+nav a:hover{
+    background-color: burlywood;
+    color: black;
+}
+.header-container header{
+    background-color: black;
+    padding: 20px;
+    text-transform: capitalize;
+    color: wheat;
+}
+#sidemensu{
+    float: left;
+    width: 16%;
+    padding: 0 2%;
+}
+#sidemenu ul{
+    margin: 0;
+    padding: 0;
+}
+#sidemenu li{
+    /* border-radius: 15px 50px 30px 5px; */
+    box-shadow: 5px 10px rgb(221, 205, 205);
+    list-style: none;
+    background-color: black;
+    /* background-color: rgb(255, 254, 254); */
+    padding: 10px 0;
+    margin: 10px 0px;
+}
+#sidemenu li:hover{
+    color: black;
+    background-color: burlywood;
+}
+#sidemenu a{
+    display: block;
+    text-decoration: none;
+    color: wheat;
+    padding: 0 15px;
+}
+#content{
+    float: right;
+    background-color: wheat;
+    width: 78.15%;
+    height: 500px;
+    padding: 10px;
+    text-align: justify;
+    overflow: auto;
+}
+.footer-container{
+    background-color: black;
+    color: wheat;
+    text-align: right;
+    margin-top: 5px;
+}
+.main-container{
+    background-color: wheat;
+}
+/* .clearfix{
+    clear: both;
+} */
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    top: 0;
+}
+.text {
+    width: 400px;
+    padding: 5px;
+    font-size: 15px;
+    color: orange;
+    border: 1px solid #c8d03e;
+    outline: none;
+    background: white url(./assets/images/search.png) right center no-repeat;
+  }
+  input [type="text"]:focus {
+    border: 1px solid #c8d03e;
+  }
+  
