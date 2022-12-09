@@ -1,7 +1,9 @@
+import { Iuser } from './../../interfaces/iuser';
+import { Cart } from './../../interfaces/cart';
 import { UserService } from './../../services/user.service';
 import { Items } from './../../interfaces/items';
 import { Input, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-items',
@@ -10,14 +12,49 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ItemsComponent implements OnInit {
 
-  items!: Array<Items>
+  items!: Items[]
+  cart: Cart ={"id":0, "price":0,"quantity":0,"userId":0,"itemId":0, "image":""}
+
+  textSearch: string=''
+  isLogin!: boolean
 
   constructor(
     private userService: UserService, 
-    private activatedRoute: ActivatedRoute) { }
+    private route: Router) { }
 
   ngOnInit(): void {
-    this.userService.getItemsList().subscribe(data => this.items = data)
+    this.userService.getItemsList()
+      .subscribe({
+        next: data => {
+          this.userService.setItems(data)
+          this.items = this.userService.getItems()
+        }
+      }) 
+    // console.log(this.userService.getItems())
+  }
+
+  addToCart(event: any){
+    this.isLogin = JSON.parse(localStorage.getItem("isLogin")||"")
+    let target: any = event.target || event.srcElement || event.currentTarget
+    let idAttr = target.attributes.id
+    let id = idAttr.nodeValue
+    if (!this.isLogin) {
+      alert('Please Login first')
+      return
+    } else {
+        this.userService.getCategoryItemById(id)
+          .subscribe({
+            next: data => {
+              this.cart.itemId = data.id
+              this.cart.price = data.price
+              this.cart.image = data.image
+              this.cart.quantity = 1
+              this.cart.userId = JSON.parse(localStorage.getItem("uid") || "")
+              this.userService.addToCard(this.cart).subscribe()
+            }
+          })
+      }
+    this.route.navigate(['cart/show'])
   }
 
 }

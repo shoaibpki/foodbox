@@ -1,6 +1,7 @@
+import { Iuser } from './../../interfaces/iuser';
 import { Items } from './../../interfaces/items';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +11,18 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   categories: any;
+  islogin!: boolean
+  user!: Iuser
 
-  constructor(private userService: UserService, ) { }
+  constructor(private userService: UserService, ) {
+   }
 
   ngOnInit(): void {
-    localStorage.setItem('role', 'false')
+    this.islogin = JSON.parse(localStorage.getItem('isLogin')|| "")
+    this.user = this.userService.getUser()
     this.userService.getAllCategories().subscribe(data => this.categories = data)
     // this.userService.getItemsList().subscribe(data => this.items = data)
   }
+
 
 }

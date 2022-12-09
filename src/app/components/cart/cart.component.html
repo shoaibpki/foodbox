@@ -1,0 +1,43 @@
+<div class="container-fluid mt-3">
+    <div class="table-responsive-sm">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Subtotal</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="" *ngFor="let item of cart; let i = index">
+                    <td scope="row">Image</td>
+                    <td>{{item.price}}</td>
+                    <td><input type="number" value="{{item.quantity}}" min="1" max="10" (change)="changeFn($event)" ></td>
+                    <td>{{subtotal}}</td>
+                    <td>
+                        <button class="btn btn-danger">
+                            <i id="{{item.id}}" (click) ="deleItem($event,i)" class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="clearfix">
+            <div class="float-start">
+                <button class="btn btn-warning" (click)="back()">
+                    Continue Shopping
+                </button>
+            </div>
+            <div class="float-end">
+                <button class="btn btn-success">
+                    Checkout
+                </button>
+            </div>
+            <div class="float-end me-5">
+               <h5> Total : {{gtotal}}/-</h5>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,8 +9,12 @@ import { HttpClientModule } from "@angular/common/http";
 import { CategoryComponent } from './components/category/category.component';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { FilterPipe } from './pipe/filter.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
+import { HomeComponent } from './components/home/home.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { LoginComponent } from './components/login/login.component';
+import { CartComponent } from './components/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +24,18 @@ import { ItemDetailsComponent } from './components/item-details/item-details.com
     CategoryComponent,
     CategoryItemComponent,
     FilterPipe,
-    ItemDetailsComponent
+    ItemDetailsComponent,
+    HomeComponent,
+    SignupComponent,
+    LoginComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

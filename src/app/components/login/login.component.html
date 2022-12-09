@@ -1,0 +1,43 @@
+<div class="container mt-3">
+    <div class="card bg-light">
+      <article class="card-body mx-auto" style="max-width: 400px">
+        <h4 class="card-title mt-3 text-center">Login</h4>
+        <form [formGroup]="userForm" (ngSubmit)="submit()">
+          <!-- form-group// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi bi-envelope"></i>
+              </span>
+            </div>
+            <input
+              formControlName="email"
+              class="form-control"
+              placeholder="Email address"
+              type="email"
+            />
+          </div>
+          <!-- form-group end.// -->
+          <div class="form-group input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"> <i class="bi bi-lock-fill"></i> </span>
+            </div>
+            <input
+              formControlName="password"
+              class="form-control"
+              placeholder="Password"
+              type="password"
+            />
+          </div>
+          <!-- form-group// -->
+          <div class="form-group mt-1">
+            <button type="submit" class="btn btn-primary btn-block">
+              Login
+            </button>
+          </div>
+        </form>
+      </article>
+    </div>
+    <!-- card.// -->
+  </div>
+  

@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Items } from 'src/app/interfaces/items';
 
 @Component({
@@ -11,7 +11,7 @@ import { Items } from 'src/app/interfaces/items';
 export class ItemDetailsComponent implements OnInit {
 
   categoryItems!: Array<Items>
-  role!: boolean
+  isLogin!: boolean
   textSearch: string=''
 
   constructor(private userService: UserService, 
@@ -26,16 +26,12 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   addToCart(event: any){
-    console.log('hello')
-    this.role = JSON.parse(localStorage.getItem("role")||"")
-    if (!this.role) {
+    this.isLogin = JSON.parse(localStorage.getItem("isLogin")||"")
+    if (!this.isLogin) {
       alert('Please Login first')
     }
-    console.log(this.role)
     let target: any = event.target || event.srcElement || event.currentTarget
     let idAttr = target.attributes.id
 
   }
-
-
 }

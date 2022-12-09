@@ -1,11 +1,22 @@
-<div class="container-fluid">
+<div class="container-fluid mt-3">
+    <div class="clearfix">
+        <div class="float-end">
+            <input
+              type="text"
+              class="text"
+              name="txtsrch"
+              placeholder="Search items here..."
+              [(ngModel)]="textSearch"
+            />
+        </div>
+    </div>
     <div class="row">
-        <div class="card ms-1 mt-1" style="width: 14rem;" *ngFor="let item of items">
+        <div class="card ms-1 mt-1" style="width: 14rem;" *ngFor="let item of items | filter: textSearch">
             <!-- <img src="..." class="card-img-top" alt="..."> -->
             <div class="card-body">
                 <h5 class="card-title">{{item.itemName}}</h5>
                 <p class="card-text">Available Quantity : {{item.availableQty}}</p>
-                <button class="btn btn-warning">Add to Cart</button>
+                <button id="{{item.id}}" class="btn btn-warning" (click)="addToCart($event)">Add to Cart</button>
             </div>
         </div>
     </div>

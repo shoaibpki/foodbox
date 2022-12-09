@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
 body{
     font-family: 'Bellefair', serif;
@@ -61,6 +62,12 @@ nav a:hover{
     color: black;
     background-color: burlywood;
 }
+
+#sidemenu a:hover{
+    color: black;
+    background-color: burlywood;
+}
+
 #sidemenu a{
     display: block;
     text-decoration: none;
@@ -108,4 +115,3 @@ nav a:hover{
   input [type="text"]:focus {
     border: 1px solid #c8d03e;
   }
-  
