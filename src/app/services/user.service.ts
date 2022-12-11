@@ -87,4 +87,13 @@ export class UserService {
     return this.http.delete(`${this._rooturl}/categoryitem/delete/${id}
     `)
   }
+
+  updateCart(item: Cart) : Observable<any> {
+    return this.http.put(`${this._rooturl}/cart/addtocart`,item)
+  }
+  
+  allItemsForAdmin(): Observable<any> {
+    return this.http.get(`${this._rooturl}/manage/product`)
+  }
+
 }

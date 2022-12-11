@@ -54,7 +54,7 @@ export class ItemsComponent implements OnInit {
             }
           })
       }
-    this.route.navigate(['cart/show'])
+    // this.route.navigate(['cart/show'])
   }
 
 }

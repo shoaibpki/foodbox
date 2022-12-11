@@ -1,0 +1,46 @@
+<div class="container-fluid mt-3">
+    <h3>Available Products</h3>
+    <div class="clearfix">
+        <div class="float-end">
+            <label for="searchItem">
+                Search Item: &nbsp;
+            </label>
+            <input class="text" type="text" placeholer="Search Items" [(ngModel)]="search">
+        </div>
+    </div>
+    <div class="table-responsive-sm mt-2">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Qty.Avail</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Activate</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="" *ngFor="let item of items | filter: search">
+                    <td scope="row">{{item.id}}</td>
+                    <td>{{item.image}}</td>
+                    <td>{{item.itemName}}</td>
+                    <td></td>
+                    <td>{{item.availableQty}}</td>
+                    <td>{{item.price | currency}}</td>
+                    <td>
+                        <div class="form-check form-switch"  *ngIf="!item.disabled">
+                            <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes" checked>
+                        </div>
+                        <div class="form-check form-switch"  *ngIf="item.disabled">
+                            <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" value="yes">
+                        </div>
+                    </td>
+                    <td><button class="btn btn-primary"><i class="bi bi-pencil"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

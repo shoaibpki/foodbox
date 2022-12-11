@@ -5,8 +5,14 @@
                 <li class="float-start" routerLinkActive="active">
                     <a href="">FoodBox</a>
                 </li>
-                <li routerLinkActive="active">
+                <li class="float-start" routerLinkActive="active">
                     <a routerLink="productview">Product View</a>
+                </li>
+                <li class="float-start">
+                    <a routerLink="manage/product">Manage Product</a>
+                </li>
+                <li class="float-start">
+                    <a routerLink="cart/show">Cart</a>
                 </li>
                 <li class="float-end" *ngIf="!user">
                     <a routerLink="login">Login</a>

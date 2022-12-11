@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
           },
           error: err => alert(err)
         })
-        this.router.navigate(['header'])
+        this.router.navigate(['productview'])
         
     }
   }

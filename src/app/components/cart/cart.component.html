@@ -14,8 +14,8 @@
                 <tr class="" *ngFor="let item of cart; let i = index">
                     <td scope="row">Image</td>
                     <td>{{item.price}}</td>
-                    <td><input type="number" value="{{item.quantity}}" min="1" max="10" (change)="changeFn($event)" ></td>
-                    <td>{{subtotal}}</td>
+                    <td><input id="{{i}}" type="number" value ="{{item.quantity}}" min="1" max="10" (change)="changeFn($event)" ></td>
+                    <td>{{item.subtotal}}</td>
                     <td>
                         <button class="btn btn-danger">
                             <i id="{{item.id}}" (click) ="deleItem($event,i)" class="bi bi-trash"></i>
@@ -31,13 +31,16 @@
                 </button>
             </div>
             <div class="float-end">
-                <button class="btn btn-success">
+                <button class="btn btn-success" (click)="saveCart()">
                     Checkout
                 </button>
             </div>
             <div class="float-end me-5">
                <h5> Total : {{gtotal}}/-</h5>
             </div>
+        </div>
+        <div class="alert alert-success mt-3" *ngIf="pay">
+            <strong>Success!</strong> Payment has been made, Thank you For Choosing Food Box.
         </div>
     </div>
 </div>

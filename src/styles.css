@@ -2,13 +2,14 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
-body{
+/* body{
     font-family: 'Bellefair', serif;
-}
+} */
 
 nav{
+    font-family: 'Bellefair', serif;
     background-color: black;
-    width: 100%;
+    width: auto;
 }
 nav ul {
     margin: 0;
@@ -16,8 +17,7 @@ nav ul {
     overflow: hidden;
 }
 nav ul li{
-    float: left;
-    /* display: inline-block; */
+    display: inline-block;
     list-style: none;
     width: 150px;
 }
@@ -41,11 +41,11 @@ nav a:hover{
     color: wheat;
 }
 #sidemensu{
-    float: left;
     width: 16%;
     padding: 0 2%;
 }
 #sidemenu ul{
+    font-family: 'Bellefair', serif;
     margin: 0;
     padding: 0;
 }

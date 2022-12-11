@@ -1,3 +1,4 @@
+import { ManageProductComponent } from './components/manage-product/manage-product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -14,10 +15,12 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'productview', component: ItemsComponent},
-  {path: 'cart/show', component: CartComponent},
-  // {path: 'categoryitem/delete/'+':id',component: CartComponent},
+  {path: 'manage/product', component: ManageProductComponent},
   {path: 'header', component: HeaderComponent},
   {path: ':id', component: ItemDetailsComponent},
+  {path: 'cart/show', component: CartComponent},
+  // {path: 'categoryitem/delete/'+':id',component: CartComponent},
+  
   {path: '**', redirectTo: 'foodbox', pathMatch: 'full'},
   ];
 

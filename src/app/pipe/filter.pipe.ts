@@ -12,7 +12,7 @@ export class FilterPipe implements PipeTransform {
       return items
     } else {
         return items.filter(
-        i => i.itemName.toUpperCase().indexOf(textSearch) > -1
+        it => it.itemName.toUpperCase().indexOf(textToUpper) > -1
       )
     }
   }

@@ -1,9 +1,11 @@
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Cart } from './../../interfaces/cart';
 import { Items } from './../../interfaces/items';
 import { Iuser } from './../../interfaces/iuser';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -13,41 +15,53 @@ import { Component, OnInit } from '@angular/core';
 export class CartComponent implements OnInit {
 
   user!: Iuser
-  items!: Items[]
-  cart!: Cart[]
+  cart: Cart[] = []
   subtotal: number = 0
-  price: number = 0
+  cartItems: number = 0
   gtotal: number = 0
-  qty: number=0
+  pay: boolean= false
+  userId!: number
+
   constructor(private userService: UserService, private router: Router) {
-    let userid: any = localStorage.getItem('uid')
-    this.userService.getItemsbyUser(userid).subscribe(data => this.cart = data)
-    console.log(this.cart)
 
    }
 
   ngOnInit(): void {
 
-
-    // this.userService.getUserByEmail(email)
-    //   .subscribe(data => this.userService.setUser(data))
-
-    // this.cart = this.userService.getUser().cartItems
-    // this.userService.getItemsbyUser(userid).subscribe(data => this.cart = data)
+     this.userId = JSON.parse(localStorage.getItem('uid')||"" )
+    this.userService.getItemsbyUser(this.userId)
+      .pipe( map(data => {
+        data.forEach((c,i) =>{
+          this.cart.push(c)
+          this.cart[i].subtotal = c.price * c.quantity
+          this.gtotal = this.gtotal + (this.cart[i].subtotal ?? 0)
+          // this.cart[i].userId = this.user.id
+  })
+      })).subscribe()
+    
+    
+    // this.user = this.userService.getUser()
+    // this.userService.setCart(this.user.cartItems)
+    // console.log(this.user)
+    
+    // this.userService.getCart().forEach((cart, i) => {
+    //   this.cart.push(cart)
+    // this.cart[i].subtotal = c.price * c.quantity
+    // this.gtotal = this.gtotal + (this.cart[i].subtotal ?? 0)
+    // this.cart[i].userId = this.user.id
+// })
   }
 
-  changeFn(e: any) {
-    this.gtotal = 0
-    this.price =  this.userService.getCart()[0].price
-    this.subtotal = e.target.value * this.price;
-    this.gtotal = this.subtotal
+  changeFn(event: any) {
+    let target: any = event.target || event.srcElement || event.currentTarget
+    let idAttr = target.attributes.id
+    let index: number= idAttr.nodeValue
 
-    // if (this.qty < e.target.value){
-    //   this.gtotal =  this.gtotal + this.subtotal
-    // } else {
-    //   this.gtotal =  this.gtotal - this.subtotal
-    // }
-    // this.qty = e.target.value
+    this.gtotal = this.gtotal - (this.cart[index].subtotal ?? 0)
+    this.cart[index].quantity = event.target.value
+    this.cart[index].subtotal = event.target.value * this.cart[index].price;
+    this.gtotal = this.gtotal + (this.cart[index].subtotal ?? 0)
+
   }
   
   deleItem(event: any, element: any){
@@ -55,17 +69,26 @@ export class CartComponent implements OnInit {
     let idAttr = target.attributes.id
     let id = idAttr.nodeValue
     this.userService.DeleteItemFromCard(id).subscribe()
-    // this.cart = this.userService.getCart()
-    // console.log(this.cart)
+    this.gtotal = this.gtotal - (this.cart[element].subtotal ?? 0)
     this.cart.splice(element,1)
-    this.userService.getCart().splice(element,1)
-    // this.cart.forEach((element,index) => {
-    //   if(element.id == id)
-    //     this.cart.splice(index)
-    // })
     console.log(this.cart)
   }
   back(){
     this.router.navigate([''])
+  }
+
+  saveCart(){
+    if (this.cart.length == 0) {
+      this.router.navigate([''])
+    }else{
+      this.cart.forEach((c) => {
+        console.log(c)
+        this.userService.updateCart(c).subscribe()
+      })
+      // this.userService.paymentConfirm(this.userId).subscribe()
+      this.cart.splice(0)
+      this.gtotal = 0
+      this.pay = true
+    }
   }
 }

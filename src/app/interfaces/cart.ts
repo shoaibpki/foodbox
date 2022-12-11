@@ -2,8 +2,9 @@ export interface Cart {
     id: number;
 	price: number;
 	quantity: number;
-	image: string;
+	image?: string;
 	userId: number;
 	itemId?: number;
+	subtotal?: number;
 
 }
