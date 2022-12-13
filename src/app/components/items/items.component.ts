@@ -14,6 +14,7 @@ export class ItemsComponent implements OnInit {
 
   items!: Items[]
   cart: Cart ={"id":0, "price":0,"quantity":0,"userId":0,"itemId":0, "image":""}
+  user!: Iuser
 
   textSearch: string=''
   isLogin!: boolean
@@ -34,7 +35,7 @@ export class ItemsComponent implements OnInit {
   }
 
   addToCart(event: any){
-    this.isLogin = JSON.parse(localStorage.getItem("isLogin")||"")
+    this.isLogin = this.userService.getIsLogin()
     let target: any = event.target || event.srcElement || event.currentTarget
     let idAttr = target.attributes.id
     let id = idAttr.nodeValue
@@ -42,6 +43,7 @@ export class ItemsComponent implements OnInit {
       alert('Please Login first')
       return
     } else {
+        this.user = this.userService.getUser()
         this.userService.getCategoryItemById(id)
           .subscribe({
             next: data => {
@@ -49,7 +51,7 @@ export class ItemsComponent implements OnInit {
               this.cart.price = data.price
               this.cart.image = data.image
               this.cart.quantity = 1
-              this.cart.userId = JSON.parse(localStorage.getItem("uid") || "")
+              this.cart.userId = this.user.id
               this.userService.addToCard(this.cart).subscribe()
             }
           })
