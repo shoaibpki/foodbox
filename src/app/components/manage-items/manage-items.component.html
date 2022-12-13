@@ -1,0 +1,51 @@
+<div class="container-fluid mt-3">
+    <form [formGroup]="userForm" (submit)="submit()">
+        <div class="row mt-3">
+            <div class="form-group col col-md-6">
+              <label for="itemName" class="form-label">Item Name:</label>
+              <input type="text" class="form-control" formControlName="itemName" required>
+              <div *ngIf="itemName?.invalid && (itemName?.dirty || itemName?.touched)" class="alert alert-danger">
+                <p *ngIf="itemName?.errors?.['required']">Item Name is required</p>
+              </div>
+            </div>
+            <div class="form-group col col-md-6">
+                <label for="categoryId" class="form-label">Choose Category:</label>
+                <select class="form-select" formControlName="categoryId" aria-label="Default select example">
+                    <option *ngFor="let category of categories" [ngValue]="category.id">  
+                        {{category.categoryName}}
+                    </option>
+                </select>
+                <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)" class="alert alert-danger">
+                    <p *ngIf="categoryId?.errors?.['required']">Category is required</p>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="form-group col col-md-6">
+                    <label for="image" class="form-label">Select Image</label>
+                    <input class="form-control" type="file" accept=".jpg, .png, .jpeg| image/*|MIME_type" formControlName="image">
+                </div>
+                <div class="form-group col col-md-6">
+                    <label class="form-label" for="price">Price: </label>
+                    <input class="form-control" formControlName="price" type="number" min="1" >
+                </div>
+                <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="alert alert-danger">
+                    <p *ngIf="price?.errors?.['required']">Price is required</p>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="form-group col col-md-6">
+                    <label for="availableQty" class="form-label">Set Item Quantity:</label>
+                    <input type="number" class="form-control" formControlName="availableQty" min="1">
+                    <div *ngIf="availableQty?.invalid && (availableQty?.dirty || availableQty?.touched)" class="alert alert-danger">
+                        <p *ngIf="availableQty?.errors?.['required']">Quantity is required</p>
+                    </div>
+                    </div>
+                <div class="form-group col col-md-6 form-check form-switch mt-5">
+                    <!-- <label for="disabled" class="form-label">:</label> -->
+                    <input type="checkbox" class="form-check-input" formControlName="disabled" role="switch">Is Disabled
+                </div>
+            </div>
+            <button class="btn btn-primary btn-lg mt-2" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

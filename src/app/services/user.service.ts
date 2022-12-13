@@ -1,3 +1,4 @@
+import { Category } from './../interfaces/category';
 import { Cart } from './../interfaces/cart';
 import { Iuser } from './../interfaces/iuser';
 import { Items } from './../interfaces/items';
@@ -14,11 +15,18 @@ export class UserService {
   private _rooturl: string = "http://localhost:8080/foodbox"
 
   private _items!: Items[]
-  private _user!: Iuser
+  private _user!: any
   private _cart!: Cart[]
+  private _islogin: boolean = false
 
   constructor(private http: HttpClient) { }
 
+  public setIsLogin(login: boolean){
+    this._islogin = login
+  }
+  public getIsLogin(){
+    return this._islogin
+  }
   public setUser(user: Iuser){
     this._user = user
   }
@@ -60,15 +68,14 @@ export class UserService {
   }
 
   getLogin(email: string, pass: string): Observable<any>{
-    // let reqheaders = new HttpHeaders().set('No-Auth','true')
+    // let reqheaders = new HttpHeaders({Authorization: 'Basic' +btoa(email+':'+pass)})
     let params = new HttpParams().set('username',email)
       .append('password',pass)      
     return this.http.get(`${this._rooturl}/login`, { params })
   }
 
   getUserByEmail(email:string) : Observable<any>{
-    let reqheaders = new HttpHeaders().set('No-Auth','true')
-    return this.http.get(`${this._rooturl}/getuser/${email}`,{ headers: reqheaders })
+    return this.http.get(`${this._rooturl}/getuser/${email}`)
   }
 
   getCategoryItemById(id: number) : Observable<Items>{
@@ -92,8 +99,19 @@ export class UserService {
     return this.http.put(`${this._rooturl}/cart/addtocart`,item)
   }
   
-  allItemsForAdmin(): Observable<any> {
-    return this.http.get(`${this._rooturl}/manage/product`)
+  allItemsForAdmin(): Observable<Items[]> {
+    return this.http.get<Items[]>(`${this._rooturl}/manage/product`)
   }
 
+  updateCategoryItm(item: Items): Observable<any> {
+    return this.http.put(`${this._rooturl}/manage/product`,item)
+  }
+
+  saveCategoryItm(item: Items): Observable<any> {
+    return this.http.post(`${this._rooturl}/manage/product`,item)
+  }
+
+  getAllCategoriesAdmin() :Observable<any>{
+    return this.http.get(`${this._rooturl}/manage/product/categories`)
+  }
 }

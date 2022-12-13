@@ -1,3 +1,4 @@
+import { Cart } from './../../interfaces/cart';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -14,6 +15,9 @@ export class ItemDetailsComponent implements OnInit {
   isLogin!: boolean
   textSearch: string=''
 
+  cart: Cart ={"id":0, "price":0,"quantity":0,"userId":0,"itemId":0, "image":""}
+
+
   constructor(private userService: UserService, 
     private activatedRoute: ActivatedRoute) { }
 
@@ -27,11 +31,25 @@ export class ItemDetailsComponent implements OnInit {
 
   addToCart(event: any){
     this.isLogin = JSON.parse(localStorage.getItem("isLogin")||"")
-    if (!this.isLogin) {
-      alert('Please Login first')
-    }
     let target: any = event.target || event.srcElement || event.currentTarget
     let idAttr = target.attributes.id
+    let id = idAttr.nodeValue
+    if (!this.isLogin) {
+      alert('Please Login first')
+      return
+    } else {
+      this.userService.getCategoryItemById(id)
+        .subscribe({
+          next: data => {
+            this.cart.itemId = data.id
+            this.cart.price = data.price
+            this.cart.image = data.image
+            this.cart.quantity = 1
+            this.cart.userId = JSON.parse(localStorage.getItem("uid") || "")
+            this.userService.addToCard(this.cart).subscribe()
+          }
+        })
+    }
 
   }
 }

@@ -28,7 +28,9 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
 
-     this.userId = JSON.parse(localStorage.getItem('uid')||"" )
+    // this.userId = JSON.parse(localStorage.getItem('uid')||"" )
+    this.user = this.userService.getUser()
+    this.userId = this.user.id
     this.userService.getItemsbyUser(this.userId)
       .pipe( map(data => {
         data.forEach((c,i) =>{

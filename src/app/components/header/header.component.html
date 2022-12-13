@@ -8,20 +8,20 @@
                 <li class="float-start" routerLinkActive="active">
                     <a routerLink="productview">Product View</a>
                 </li>
-                <li class="float-start">
+                <li class="float-start" *ngIf="role == 'ADMIN'">
                     <a routerLink="manage/product">Manage Product</a>
                 </li>
-                <li class="float-start">
+                <li class="float-start" *ngIf="islogin()">
                     <a routerLink="cart/show">Cart</a>
                 </li>
-                <li class="float-end" *ngIf="!user">
+                <li class="float-end" *ngIf="!islogin()">
                     <a routerLink="login">Login</a>
                 </li>
-                <li class="float-end" *ngIf="!user">
+                <li class="float-end" *ngIf="!islogin()" >
                     <a target="_self" routerLink="signup">Sign Up</a>
                 </li>
-                <li class="float-end" *ngIf="user">
-                    <a target="_self" routerLink="logout">Logout</a>
+                <li class="float-end" *ngIf="islogin()">
+                    <a target="_self" routerLink="logout" (click)="logout()">Logout</a>
                 </li>
             </ul>
         </div>

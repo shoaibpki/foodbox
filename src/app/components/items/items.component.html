@@ -11,8 +11,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="card ms-1 mt-1" style="width: 14rem;" *ngFor="let item of items | filter: textSearch">
-            <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card ms-1 mt-1" style="width: 18rem;" *ngFor="let item of items | filter: textSearch">
+            <img src="../../../assets/images/{{item.image}}" class="card-img-top w-75 img-thumbnail" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{item.itemName}}</h5>
                 <p class="card-text">Available Quantity : {{item.availableQty}}</p>
