@@ -2,6 +2,7 @@ import { UserService } from './../../services/user.service';
 import { Iuser } from './../../interfaces/iuser';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
   rUser!: any
   error: string=''
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.userForm = new FormGroup({
@@ -37,5 +38,6 @@ export class SignupComponent implements OnInit {
     if (this.rUser) {
       this.error = "Register Successfully!"
     }
+    this.router.navigate(['']);
   }
 }

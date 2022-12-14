@@ -10,13 +10,15 @@
             />
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-0 mt-5">
         <div class="card ms-1 mt-1" style="width: 16rem;" *ngFor="let ci of categoryItems | filter: textSearch">
-            <img src="../../../assets/images/{{ci.image}}" class="card-img-top w-75 img-thumbnail" alt="...">
+            <img [src]="ci.image"  alt="{{ci.itemName}}">
             <div class="card-body">
-                <h5 class="card-title">{{ci.itemName}}</h5>
-                <p class="card-text">Available Quantity : {{ci.availableQty}}</p>
-                <button id="{{ci.id}}" class="btn btn-warning" (click)="addToCart($event)">Add to Cart</button>
+                <h5 class="card-title text-center">{{ci.itemName}}</h5>
+                <p class="card-text text-center">Available Quantity : {{ci.availableQty}}</p>
+                <div class="text-center">
+                    <button id="{{ci.id}}" class="btn btn-warning" (click)="addToCart($event)">Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>

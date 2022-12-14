@@ -16,10 +16,7 @@ export class CategoryItemComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+   
   }
-
-  // filtertext(){
-
-  // }
 
 }

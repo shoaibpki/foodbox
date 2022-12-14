@@ -34,5 +34,8 @@ export class ManageProductComponent implements OnInit {
   addItem(){
     this.router.navigate(['product/add'])    
   }
+  deleteItem(id:any){
+    console.log("Deleting item with id: "+ id);
+  }
 
 }

@@ -29,6 +29,8 @@ export class ItemsComponent implements OnInit {
         next: data => {
           this.userService.setItems(data)
           this.items = this.userService.getItems()
+          console.log(this.items);
+          console.log(this.items.forEach(e => console.log(e.image)));
         }
       }) 
     // console.log(this.userService.getItems())
