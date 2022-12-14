@@ -38,7 +38,7 @@
                             <input id="{{item.id}}" class="form-check-input" type="checkbox"         name="disabled" value="yes" [checked]="item.disabled" (change)="disableItem($event , i)">
                         </div>
                     </td>
-                    <td><button 
+                    <td><button (click)="deleteItem(item.id)"
                         class="btn btn-primary"
                         data-bs-toggle="model"
                         data-bs-target="#editform">

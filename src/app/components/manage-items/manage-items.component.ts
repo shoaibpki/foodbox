@@ -3,6 +3,7 @@ import { Category } from './../../interfaces/category';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-items',
@@ -12,40 +13,41 @@ import { Component, OnInit } from '@angular/core';
 export class ManageItemsComponent implements OnInit {
 
   userForm!: FormGroup
-  categories: Category[]=[]
+  categories: Category[] = []
   items!: Items
-  get itemName() {return this.userForm.get('itemName')}
-  get categoryId() {return this.userForm.get('categoryId')}
-  get price() {return this.userForm.get('price')}
-  get availableQty() {return this.userForm.get('availableQty')}
+  get itemName() { return this.userForm.get('itemName') }
+  get categoryId() { return this.userForm.get('categoryId') }
+  get price() { return this.userForm.get('price') }
+  get availableQty() { return this.userForm.get('availableQty') }
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router:Router) { }
 
   ngOnInit(): void {
     this.userForm = new FormGroup({
-      itemName: new FormControl('',[
+      itemName: new FormControl('', [
         Validators.required
       ]),
-      categoryId: new FormControl('',[
+      categoryId: new FormControl('', [
         Validators.required
       ]),
       image: new FormControl(''),
-      price: new FormControl(0,[
+      price: new FormControl(0, [
         Validators.required
       ]),
-      availableQty: new FormControl(0,[
+      availableQty: new FormControl(0, [
         Validators.required
       ]),
       disabled: new FormControl(false)
     })
-    this.userService.getAllCategoriesAdmin().subscribe(data => this.categories = data)
+    this.userService.getAllCategories().subscribe(data => this.categories = data)
+    console.log(this.categories);
 
   }
-  
-  
-  submit(){
 
-    if(this.userForm.valid){
+
+  submit() {
+
+    if (this.userForm.valid) {
       let fullPath: string = this.userForm.value['image']
       if (fullPath != '') {
         let filename = fullPath.split('\\').pop()
@@ -54,8 +56,9 @@ export class ManageItemsComponent implements OnInit {
       this.items = this.userForm.value
       this.userService.saveCategoryItm(this.items).subscribe()
       // console.log(this.items)
-  
-  }
+      this.router.navigate(['']);
+
+    }
 
   }
 }

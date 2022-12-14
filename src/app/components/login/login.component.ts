@@ -37,11 +37,11 @@ export class LoginComponent implements OnInit {
       this.userService.getUserByEmail(this.userForm.value['email'])
         .subscribe({
           next: data =>{
-            // localStorage.setItem('uname', data.name)
-            // localStorage.setItem('uemail', data.email)
-            // localStorage.setItem('role',data.role)
-            // localStorage.setItem('isLogin', 'true')
-            // localStorage.setItem('uid', data.id)
+            localStorage.setItem('uname', data.name)
+            localStorage.setItem('uemail', data.email)
+            localStorage.setItem('role',data.role)
+            localStorage.setItem('isLogin', 'true')
+            localStorage.setItem('uid', data.id)
             this.userService.setUser(data)
             this.userService.setIsLogin(true)
           },
