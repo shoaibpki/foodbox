@@ -15,7 +15,8 @@ const routes: Routes = [
 
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
-  {path: 'manage/product', component: ManageProductComponent},
+  {path: 'manage/product', component: ManageProductComponent,
+    canActivate: [NavidationGuard]},
   {path: 'product/add', component: ManageItemsComponent},
   {path: 'cart/show', component: CartComponent},
   {path: '', component: HeaderComponent,

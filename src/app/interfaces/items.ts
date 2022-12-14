@@ -5,6 +5,7 @@ export interface Items {
 	image: string;
 	price: number;
 	disabled: boolean;
+	itemDescription: string;
 	availableQty: number;
 	categoryId?: number;
 

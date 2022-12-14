@@ -14,16 +14,21 @@ export class ManageItemsComponent implements OnInit {
   userForm!: FormGroup
   categories: Category[]=[]
   items!: Items
+  message: string = ''
   get itemName() {return this.userForm.get('itemName')}
   get categoryId() {return this.userForm.get('categoryId')}
   get price() {return this.userForm.get('price')}
-  get availableQty() {return this.userForm.get('availableQty')}
-
+  get availableQty() { return this.userForm.get('availableQty')}
+  get itemDescription(){ return this.userForm.get('itemDescription') }
+  
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.userForm = new FormGroup({
       itemName: new FormControl('',[
+        Validators.required
+      ]),
+      itemDescription: new FormControl('',[
         Validators.required
       ]),
       categoryId: new FormControl('',[
@@ -52,10 +57,15 @@ export class ManageItemsComponent implements OnInit {
         this.userForm.value['image'] = filename
       }
       this.items = this.userForm.value
-      this.userService.saveCategoryItm(this.items).subscribe()
-      // console.log(this.items)
-  
+      this.userService.saveCategoryItm(this.items).subscribe({
+        next: data => this.message = data,
+        error: err => this.message = err['error'].text
+      })
+    }
   }
 
+  reset(){
+    this.userForm.reset()
+    this.message = ''
   }
 }

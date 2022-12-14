@@ -17,6 +17,7 @@ import { LoginComponent } from './components/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ManageProductComponent } from './components/manage-product/manage-product.component';
 import { ManageItemsComponent } from './components/manage-items/manage-items.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ManageItemsComponent } from './components/manage-items/manage-items.com
     LoginComponent,
     CartComponent,
     ManageProductComponent,
-    ManageItemsComponent
+    ManageItemsComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,

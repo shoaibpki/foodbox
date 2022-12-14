@@ -14,11 +14,13 @@ export class HeaderComponent implements OnInit {
   categories: any;
   user!: Iuser
   role: string =''
+  myinterval: any
 
   constructor(private userService: UserService, private router: Router ) {
    }
 
   ngOnInit(): void {
+    clearInterval(this.myinterval)
     this.user = this.userService.getUser()
     // this.role = this.user.role
     this.userService.getAllCategories().subscribe(data => this.categories = data)
