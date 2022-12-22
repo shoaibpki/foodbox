@@ -28,10 +28,9 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // this.userId = JSON.parse(localStorage.getItem('uid')||"" )
     this.user = this.userService.getUser()
     this.userId = this.user.id
-    this.userService.getItemsbyUser(this.userId)
+    this.userService.getCartItemsbyUser(this.userId)
       .pipe( map(data => {
         data.forEach((c,i) =>{
           this.cart.push(c)
@@ -87,7 +86,6 @@ export class CartComponent implements OnInit {
         console.log(c)
         this.userService.updateCart(c).subscribe()
       })
-      // this.userService.paymentConfirm(this.userId).subscribe()
       this.cart.splice(0)
       this.gtotal = 0
       this.pay = true

@@ -13,7 +13,7 @@ interface cartItems {
     id: number;
 	price: number;
 	quantity: number;
-	image: string;
+	image?: string;
 	userId: number;
 	itemId?: number;
 

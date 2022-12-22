@@ -35,7 +35,7 @@
                     <td>{{item.price | currency: 'INR'}}</td>
                     <td>
                         <div class="form-check form-switch">
-                            <input id="{{item.id}}" class="form-check-input" type="checkbox"         name="disabled" value="yes" [checked]="item.disabled" (change)="disableItem($event , i)">
+                            <input id="{{item.id}}" class="form-check-input" type="checkbox" name="disabled" value="yes" [checked]="item.disabled" (change)="disableItem($event , i)">
                         </div>
                     </td>
                     <td><button 

@@ -1,8 +1,8 @@
 import { Items } from 'src/app/interfaces/items';
 import { Category } from './../../interfaces/category';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-manage-items',
@@ -15,12 +15,13 @@ export class ManageItemsComponent implements OnInit {
   categories: Category[]=[]
   items!: Items
   message: string = ''
+
   get itemName() {return this.userForm.get('itemName')}
   get categoryId() {return this.userForm.get('categoryId')}
   get price() {return this.userForm.get('price')}
   get availableQty() { return this.userForm.get('availableQty')}
   get itemDescription(){ return this.userForm.get('itemDescription') }
-  
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -43,10 +44,13 @@ export class ManageItemsComponent implements OnInit {
       ]),
       disabled: new FormControl(false)
     })
-    this.userService.getAllCategoriesAdmin().subscribe(data => this.categories = data)
-
-  }
+    this.getCategory()
+    }
   
+  getCategory(){
+    // this.categories.splice(0, this.categories.length)
+    this.userService.getAllCategoriesAdmin().subscribe(data => this.categories = data)
+  }
   
   submit(){
 
@@ -68,4 +72,5 @@ export class ManageItemsComponent implements OnInit {
     this.userForm.reset()
     this.message = ''
   }
+
 }

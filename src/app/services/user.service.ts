@@ -4,7 +4,7 @@ import { Iuser } from './../interfaces/iuser';
 import { Items } from './../interfaces/items';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
-import { Observable, catchError } from 'rxjs';
+import { Observable, catchError, Subject, tap } from 'rxjs';
 
 
 @Injectable({
@@ -15,8 +15,8 @@ export class UserService {
   private _rooturl: string = "http://localhost:8080/foodbox"
 
   private _items!: Items[]
-  private _user!: any
-  private _cart!: Cart[]
+  private _user: Iuser = {} as Iuser
+  private _cart: Cart[] =[]
   private _islogin: boolean = false
 
   constructor(private http: HttpClient) { }
@@ -43,8 +43,8 @@ export class UserService {
     return this._items
   }
 
-  public setCart(cart: Cart[]){
-    this._cart = cart
+  public setCart(cart: Cart){
+    this._cart.push(cart)
   }
 
   public getCart(){
@@ -56,6 +56,10 @@ export class UserService {
 
   getAllCategories(): Observable<any>{
     return this.http.get(`${this._rooturl}/category`)
+  }
+
+  saveCategory(cat: Category): Observable<any>{
+    return this.http.post(`${this._rooturl}/category`,cat)
   }
 
   signupUser(user: Iuser): Observable<any>{
@@ -78,6 +82,10 @@ export class UserService {
     return this.http.get(`${this._rooturl}/getuser/${email}`)
   }
 
+  getUserByid(id: number) : Observable<Iuser> {
+    return this.http.get<Iuser>(`${this._rooturl}/user/${id}`)
+  }
+
   getCategoryItemById(id: number) : Observable<Items>{
     return this.http.get<Items>(`${this._rooturl}/categoryitem/${id}`)
   }
@@ -86,7 +94,7 @@ export class UserService {
     return this.http.post(`${this._rooturl}/cart/addtocart`, cart)
    }
 
-  getItemsbyUser(id: number) : Observable<Cart[]>{
+  getCartItemsbyUser(id: number) : Observable<Cart[]>{
     return this.http.get<Cart[]>(`${this._rooturl}/card/show/${id}`)
   }
 
@@ -111,7 +119,7 @@ export class UserService {
     return this.http.post(`${this._rooturl}/manage/product`,item)
   }
 
-  getAllCategoriesAdmin() :Observable<any>{
-    return this.http.get(`${this._rooturl}/manage/product/categories`)
+  getAllCategoriesAdmin() :Observable<Category[]>{
+    return this.http.get<Category[]>(`${this._rooturl}/manage/product/categories`)
   }
 }

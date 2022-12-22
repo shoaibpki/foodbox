@@ -4,6 +4,7 @@ import { UserService } from './../../services/user.service';
 import { Items } from './../../interfaces/items';
 import { Input, Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-items',
@@ -13,9 +14,10 @@ import { Router } from "@angular/router";
 export class ItemsComponent implements OnInit {
 
   items!: Items[]
-  cart: Cart ={"id":0, "price":0,"quantity":0,"userId":0,"itemId":0, "image":""}
+  cart: Cart = {} as Cart
+  carts: Cart[]=[]
   user!: Iuser
-
+  addCart: boolean = false
   textSearch: string=''
   isLogin!: boolean
 
@@ -24,17 +26,34 @@ export class ItemsComponent implements OnInit {
     private route: Router) { }
 
   ngOnInit(): void {
+    this.isLogin = this.userService.getIsLogin()
+    if (this.isLogin) {
+      this.fillCart()
+    }
     this.userService.getItemsList()
       .subscribe({
-        next: data => {
-          this.userService.setItems(data)
+        next: items => {
+          this.userService.setItems(items)
           this.items = this.userService.getItems()
+          if (this.isLogin) {
+            if (this.carts.length != 0 ){
+              this.items.forEach(item => {
+                item.cartItems?.forEach(cart => {
+                  this.carts.forEach(ucart => {
+                    if(ucart.id == cart.id ){
+                      console.log(cart.id)
+                      item.addCart = true
+                    }
+                  })
+                })
+              }) 
+            }
+          }
         }
-      }) 
-    // console.log(this.userService.getItems())
+      })
   }
 
-  addToCart(event: any){
+  addToCart(event: any, i: any){
     this.isLogin = this.userService.getIsLogin()
     let target: any = event.target || event.srcElement || event.currentTarget
     let idAttr = target.attributes.id
@@ -43,7 +62,6 @@ export class ItemsComponent implements OnInit {
       alert('Please Login first')
       return
     } else {
-        this.user = this.userService.getUser()
         this.userService.getCategoryItemById(id)
           .subscribe({
             next: data => {
@@ -51,12 +69,30 @@ export class ItemsComponent implements OnInit {
               this.cart.price = data.price
               this.cart.image = data.image
               this.cart.quantity = 1
-              this.cart.userId = this.user.id
+              this.cart.userId = this.userService.getUser().id
               this.userService.addToCard(this.cart).subscribe()
+              this.items[i].addCart = true
             }
           })
       }
-    // this.route.navigate(['cart/show'])
   }
 
+  removFromCart(event: any, i:any){
+    this.items[i].cartItems?.forEach(ci => {
+      this.carts.forEach(cart => {
+        if (cart.id == ci.id){
+          this.userService.DeleteItemFromCard(cart.id).subscribe()
+        }
+      })
+    })
+    this.items[i].addCart=false  
+  }
+
+  fillCart(){
+    this.carts.splice(0, this.carts.length)
+    this.userService.getCartItemsbyUser(this.userService.getUser().id)
+    .subscribe(carts => carts.forEach(cart => {
+      this.carts.push(cart)
+    }))
+  }
 }

@@ -11,26 +11,44 @@ import { Items } from 'src/app/interfaces/items';
 })
 export class ItemDetailsComponent implements OnInit {
 
-  categoryItems!: Array<Items>
+  categoryItems!: Items[]
   isLogin!: boolean
   textSearch: string=''
-
-  cart: Cart ={"id":0, "price":0,"quantity":0,"userId":0,"itemId":0, "image":""}
+  carts: Cart[] =[]
+  cart: Cart = {} as Cart
 
 
   constructor(private userService: UserService, 
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.isLogin = this.userService.getIsLogin()
+    if (this.isLogin) {
+      this.fillCart()
+    }
+
     this.activatedRoute.params.subscribe((params => {
       this.userService.getCategoryById(+params['id']).subscribe({
-        next: (cItems) => this.categoryItems = cItems
+        next: (cItems) => {
+          this.categoryItems = cItems
+          if (this.carts.length != 0 ){
+            this.categoryItems.forEach(item => {
+              item.cartItems?.forEach(cart => {
+                this.carts.forEach(ucart => {
+                  if(ucart.id == cart.id ){
+                    console.log(cart.id)
+                    item.addCart = true
+                  }
+                })
+              })
+            }) 
+          }
+        }
       })
     }))
   }
 
-  addToCart(event: any){
-    this.isLogin = JSON.parse(localStorage.getItem("isLogin")||"")
+  addToCart(event: any, i: any){
     let target: any = event.target || event.srcElement || event.currentTarget
     let idAttr = target.attributes.id
     let id = idAttr.nodeValue
@@ -38,18 +56,39 @@ export class ItemDetailsComponent implements OnInit {
       alert('Please Login first')
       return
     } else {
-      this.userService.getCategoryItemById(id)
-        .subscribe({
-          next: data => {
-            this.cart.itemId = data.id
-            this.cart.price = data.price
-            this.cart.image = data.image
-            this.cart.quantity = 1
-            this.cart.userId = JSON.parse(localStorage.getItem("uid") || "")
-            this.userService.addToCard(this.cart).subscribe()
-          }
-        })
-    }
-
+        this.userService.getCategoryItemById(id)
+          .subscribe({
+            next: data => {
+              this.cart.itemId = data.id
+              this.cart.price = data.price
+              this.cart.image = data.image
+              this.cart.quantity = 1
+              this.cart.userId = this.userService.getUser().id
+              this.userService.addToCard(this.cart).subscribe()
+              this.categoryItems[i].addCart = true
+            }
+          })
+      }
   }
+
+  removFromCart(event: any, i:any){
+    this.categoryItems[i].cartItems?.forEach(ci => {
+      this.carts.forEach(cart => {
+        if (cart.id == ci.id){
+          this.userService.DeleteItemFromCard(cart.id).subscribe()
+        }
+      })
+    })
+    this.categoryItems[i].addCart=false  
+  }
+
+  fillCart(){
+    this.carts.splice(0, this.carts.length)
+    this.userService.getCartItemsbyUser(this.userService.getUser().id)
+    .subscribe(carts => carts.forEach(cart => {
+      this.carts.push(cart)
+    }))
+    console.log(this.carts)
+  }
+
 }

@@ -1,3 +1,4 @@
+import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { NavidationGuard } from './gaurd/navidation.guard';
 import { ManageItemsComponent } from './components/manage-items/manage-items.component';
 import { ManageProductComponent } from './components/manage-product/manage-product.component';

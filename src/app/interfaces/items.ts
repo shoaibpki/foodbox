@@ -1,3 +1,4 @@
+import { Cart } from './cart';
 export interface Items {
     id: number;
 	itemName: string;
@@ -8,5 +9,7 @@ export interface Items {
 	itemDescription: string;
 	availableQty: number;
 	categoryId?: number;
+	addCart?: boolean;
+	cartItems?: Cart[]
 
 }

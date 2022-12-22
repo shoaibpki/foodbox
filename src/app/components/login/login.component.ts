@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   error: string=''
   userForm!: FormGroup
+  user!: Iuser
 
   constructor(private userService: UserService,
     private router: Router
@@ -31,25 +32,21 @@ export class LoginComponent implements OnInit {
     this.userService.getLogin(this.userForm.value['email'],
       this.userForm.value['password']).subscribe({
         next: data => console.log(data),
-        error: err => this.error = err
+        error: err => this.error = err['error'].text
       })
-    if (!this.error){
+    if (this.error == ''){
       this.userService.getUserByEmail(this.userForm.value['email'])
         .subscribe({
           next: data =>{
-            // localStorage.setItem('uname', data.name)
-            // localStorage.setItem('uemail', data.email)
-            // localStorage.setItem('role',data.role)
-            // localStorage.setItem('isLogin', 'true')
-            // localStorage.setItem('uid', data.id)
-            this.userService.setUser(data)
-            this.userService.setIsLogin(true)
+            this.userService.setUser(data);
+            this.user = this.userService.getUser();
+            this.userService.setIsLogin(true);
+            this.router.navigate(['']);
           },
           error: err => alert(err)
         })
-        this.router.navigate([''])
-        
     }
+    this.userForm.reset()
   }
   
 

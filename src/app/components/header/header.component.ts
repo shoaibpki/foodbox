@@ -20,11 +20,8 @@ export class HeaderComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    clearInterval(this.myinterval)
     this.user = this.userService.getUser()
-    // this.role = this.user.role
     this.userService.getAllCategories().subscribe(data => this.categories = data)
-    // this.userService.getItemsList().subscribe(data => this.items = data)
   }
 
   islogin(){
@@ -36,8 +33,16 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){
-    this.userService.setIsLogin(false)
-    this.role = ''
+    setTimeout(() => {
+      this.userService.setIsLogin(false)
+      this.role = ''
+      this.userService.getCart().splice(0, this.userService.getCart().length)
+      this.user = {} as Iuser
+      this.userService.setUser(this.user)
+      this.userService.getItems().forEach(item => {
+        item.addCart = false
+      })
+    }, 1000);
     this.router.navigate([''])
   }
 

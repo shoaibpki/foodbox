@@ -5,6 +5,7 @@
     </ul>
 </nav>
 <div class="container w-50 mt-3">
+    <app-add-category></app-add-category>
     <form [formGroup]="userForm" (submit)="submit()">
         <div class="row mt-3">
             <div class="form-group col col-md-6">
@@ -16,7 +17,7 @@
             </div>
             <div class="form-group col col-md-6">
                 <label for="categoryId" class="form-label">Choose Category</label>
-                <select class="form-select" formControlName="categoryId" aria-label="Default select example">
+                <select class="form-select" formControlName="categoryId" aria-label="Default select example" (click)="getCategory()">
                     <option *ngFor="let category of categories" [ngValue]="category.id">  
                         {{category.categoryName}}
                     </option>
@@ -63,6 +64,7 @@
             </div>
             <div class="clearfix">
                 <button class="btn btn-success btn-lg mt-2 float-start" type="submit">Submit</button>
+                <!-- <button (click)="getCategory()">update</button> -->
                 <div class="alert alert-success float-start mx-3" *ngIf="message != ''">{{message}}</div>
                 <button class="btn btn-warning btn-lg mt-2 float-end" type="button" (click)="reset()">Reset</button>
             </div>
