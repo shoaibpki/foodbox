@@ -23,18 +23,23 @@ export class ItemDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLogin = this.userService.getIsLogin()
-    if (this.isLogin) {
-      this.fillCart()
-    }
+    // if (this.isLogin) {
+    //   this.fillCart()
+    // }
 
+    this.getItems()
+  }
+
+  getItems(){
+    console.log(this.userService.getCart())
     this.activatedRoute.params.subscribe((params => {
       this.userService.getCategoryById(+params['id']).subscribe({
         next: (cItems) => {
           this.categoryItems = cItems
-          if (this.carts.length != 0 ){
+          if (this.userService.getCart().length != 0 ){
             this.categoryItems.forEach(item => {
               item.cartItems?.forEach(cart => {
-                this.carts.forEach(ucart => {
+                this.userService.getCart().forEach(ucart => {
                   if(ucart.id == cart.id ){
                     console.log(cart.id)
                     item.addCart = true
@@ -73,7 +78,7 @@ export class ItemDetailsComponent implements OnInit {
 
   removFromCart(event: any, i:any){
     this.categoryItems[i].cartItems?.forEach(ci => {
-      this.carts.forEach(cart => {
+      this.userService.getCart().forEach(cart => {
         if (cart.id == ci.id){
           this.userService.DeleteItemFromCard(cart.id).subscribe()
         }

@@ -16,10 +16,21 @@ export class CategoryItemComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    if (this.userService.getIsLogin()){
+      this.fillCart()
+    }
   }
 
-  // filtertext(){
-
-  // }
+  fillCart(){
+    if (this.userService.getIsLogin()){
+      this.userService.getCart().splice(0, this.userService.getCart().length)
+      this.userService.getCartItemsbyUser(this.userService.getUser().id)
+      .subscribe(carts => carts.forEach(cart => {
+        this.userService.setCart(cart)
+      }))
+      console.log(this.userService.getCart())
+  
+    }
+  }
 
 }
