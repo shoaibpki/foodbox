@@ -11,10 +11,10 @@ nav{
     background-color: black;
     width: auto;
 }
-nav ul {
+/*nav ul {
     margin: 0;
     padding: 0px;
-    overflow: hidden;
+    overflow:hidden;
 }
 nav ul li{
     display: inline-block;
@@ -32,8 +32,9 @@ nav a{
 }
 nav a:hover{
     background-color: burlywood;
-    color: black;
-}
+    color: black; 
+}*/
+ 
 .header-container header{
     background-color: black;
     padding: 20px;
@@ -115,3 +116,4 @@ nav a:hover{
   input [type="text"]:focus {
     border: 1px solid #c8d03e;
   }
+  
