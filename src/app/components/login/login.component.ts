@@ -13,6 +13,7 @@ import { switchMap } from "rxjs/operators";
 export class LoginComponent implements OnInit {
 
   error: string=''
+  email!: string
   userForm!: FormGroup
   user!: Iuser
 
@@ -28,26 +29,27 @@ export class LoginComponent implements OnInit {
   }
 
   submit(){
-
     this.userService.getLogin(this.userForm.value['email'],
       this.userForm.value['password']).subscribe({
-        next: data => console.log(data),
-        error: err => this.error = err['error'].text
+        next: data => { console.log("data") },
+        error: err =>{
+          this.email = err['error'].text
+          this.error =  err['error'].msg
+          if (this.email == this.userForm.value['email']){
+            this.userService.getUserByEmail(this.email)
+              .subscribe({
+                next: data =>{
+                  this.userService.setUser(data);
+                  this.user = this.userService.getUser();
+                  this.userService.setIsLogin(true)
+                  // this.userForm.reset()
+                  this.router.navigate(['']);
+                },
+                error: err =>console.log(err)
+              })
+          }
+        } 
       })
-    if (this.error == ''){
-      this.userService.getUserByEmail(this.userForm.value['email'])
-        .subscribe({
-          next: data =>{
-            this.userService.setUser(data);
-            this.user = this.userService.getUser();
-            this.userService.setIsLogin(true);
-            this.router.navigate(['']);
-          },
-          error: err => alert(err)
-        })
-    }
-    this.userForm.reset()
-  }
-  
 
+  }
 }

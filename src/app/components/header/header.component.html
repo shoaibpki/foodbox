@@ -1,5 +1,5 @@
 <div class="container mt-3">
-    <nav class="navbar navbar-expand-lg shadow-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <a class="navbar-brand ms-5" href="">FoodBox</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -8,9 +8,9 @@
             <div class="navbar-nav mb-2 mb-lg-0">
                 <a class=" nav-item nav-link" routerLink="productview">Product View</a>
                 <a class=" nav-item nav-link" *ngIf="role == 'ADMIN'" routerLink="manage/product">Manage Product</a>
-                <a class="nav-item nav-link" *ngIf="islogin()" routerLink="cart/show">Cart</a>
             </div>
             <div class="navbar-nav ms-auto me-5">
+                <a class="nav-item nav-link position-relative mx-3" role="button" *ngIf="islogin()" routerLink="cart/show">Cart <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" *ngIf="cartCount != 0">{{cartCount}}</span></a>
                 <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="signup">Sign Up</a>
                 <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="login">Login</a>
                 <div class="nav-item dropdown" *ngIf="islogin()">
@@ -23,7 +23,7 @@
             </div>
         </div>
     </nav>
-    <div class="row mt-3">
+    <div class="row mt-5">
         <div  id="sidemenu" class="card col-md-3 border-0">
             <h4 class="card-header">
                 Categories

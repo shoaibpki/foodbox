@@ -11,26 +11,27 @@
             <input class="text" type="text" placeholer="Search Items" [(ngModel)]="search">
         </div>
     </div>
-    <div class="table-responsive-sm mt-2">
-        <table class="table table-bordered align-middle">
+    <div class="mt-2">
+    <form [formGroup]="itemForm" (ngSubmit)="submit()">
+        <table  class="table table-bordered align-middle">
             <thead>
-                <tr>
+                <tr class="table-secondary">
                     <th scope="col">Id</th>
                     <th scope="col"></th>
-                    <th scope="col">Name</th>
-                    <!-- <th scope="col">Category</th> -->
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Qty.Avail</th>
                     <th scope="col">Unit Price</th>
                     <th scope="col">Disabled</th>
                     <th scope="col">Edit</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="" *ngFor="let i = index; let item of items | filter: search">
+            <tbody *ngFor="let i = index; let item of items | filter: search">
+                <tr>
                     <td scope="row">{{item.id}}</td>
-                    <td><img class="img-thumbnail rounded-circle w-50" src="../../../assets/images/{{item.image}}" alt=""></td>
+                    <td><img class="rounded" src="../../../assets/images/{{item.image}}" style="height: 100px; width: 100px;" alt=""></td>
                     <td>{{item.itemName}}</td>
-                    <!-- <td>{{item.categoryName}}</td> -->
+                    <td>{{item.categoryName}}</td>
                     <td>{{item.availableQty}}</td>
                     <td>{{item.price | currency: 'INR'}}</td>
                     <td>
@@ -38,31 +39,56 @@
                             <input id="{{item.id}}" class="form-check-input" type="checkbox" name="disabled" value="yes" [checked]="item.disabled" (change)="disableItem($event , i)">
                         </div>
                     </td>
-                    <td><button 
-                        class="btn btn-primary"
-                        data-bs-toggle="model"
-                        data-bs-target="#editform">
-                            <i class="bi bi-pencil"></i>
+                    <td><button class="btn btn-primary" type="button">
+                            <i class="bi bi-pencil" (click)="item.showEdit = !item.showEdit"></i>
                         </button>
+                    </td>
+                </tr>
+                <tr *ngIf="item.showEdit">
+                    <td colspan="3">
+                        <div class="form-group">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" formControlName="itemName" [(ngModel)]="item.itemName">
+                        </div> 
+                    </td>
+                    <td colspan="2">
+                        <div class="form-group">
+                            <label class="form-label" for="price">Price: </label>
+                            <input class="form-control" formControlName="price" type="number" min="1" [(ngModel)] ="item.price">
+                        </div>
+                    </td>
+                    <td colspan="3">
+                        <div class="form-group">
+                            <label class="form-label" for="categoryId">Category</label>
+                            <select class="form-select" [(ngModel)]="item.categoryId" formControlName="categoryId" aria-label="Default select example">
+                                <option *ngFor="let category of categories" [ngValue]="category.id">  
+                                    {{category.categoryName}}
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="item.showEdit">
+                    <td colspan="2">
+                        <div class="form-group">
+                            <label class="form-label" for="availableQty">Quantity: </label>
+                            <input class="form-control" formControlName="availableQty" type="number" min="1" [(ngModel)] ="item.availableQty">
+                        </div>
+                    </td>
+                    <td colspan="4">
+                        <div class="form-group">
+                            <label class="form-label" for="itemDescription">Item Description: </label>
+                            <textarea class="form-control" formControlName="itemDescription" [(ngModel)]="item.itemDescription"></textarea>
+                        </div>
+                    </td>
+                    <td colspan="2">
+                        <input type="hidden" formControlName="id" [(ngModel)]="item.id">
+                        <input type="hidden" formControlName="image" [(ngModel)]="item.image">
+                        <button class="btn btn-success" type="submit">Save item</button>
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
-    <!-- edit Model form -->
-    <div class="model fade" id="editform">
-        <div class="model-dialog">
-            <div class="model-content">
-                <!-- header -->
-                <div class="model-header">
-                    <h4 class="modal-title">Modal Heading</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <!-- body -->
-                <div class="model-body"></div>
-                <!-- footer -->
-                <div class="model-footer"></div>
-            </div>
-        </div>
+    </form>
     </div>
 </div>

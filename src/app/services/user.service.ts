@@ -4,7 +4,7 @@ import { Iuser } from './../interfaces/iuser';
 import { Items } from './../interfaces/items';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
-import { Observable, catchError, Subject, tap } from 'rxjs';
+import { Observable, catchError, Subject, tap, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -18,9 +18,17 @@ export class UserService {
   private _user: Iuser = {} as Iuser
   private _cart: Cart[] =[]
   private _islogin: boolean = false
-
+  private _cartCount: number = 0
+  public cartChanged: BehaviorSubject<number> = new BehaviorSubject<number>(this._cartCount)
   constructor(private http: HttpClient) { }
 
+  public setCartCount(count: number): void{
+    this._cartCount = count
+    this.cartChanged.next(this._cartCount)
+  }
+  public getCartCount(): number{
+    return this._cartCount
+  }
   public setIsLogin(login: boolean){
     this._islogin = login
   }

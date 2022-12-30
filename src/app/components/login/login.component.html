@@ -37,6 +37,10 @@
           </div>
         </form>
       </article>
+      <div class="alert alert-danger alert-dismissible" *ngIf="error != ''">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>Error!</strong>{{error}} 
+      </div>
     </div>
     <!-- card.// -->
   </div>

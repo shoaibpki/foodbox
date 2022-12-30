@@ -27,7 +27,6 @@ export class CartComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
     this.user = this.userService.getUser()
     this.userId = this.user.id
     this.userService.getCartItemsbyUser(this.userId)
@@ -37,20 +36,8 @@ export class CartComponent implements OnInit {
           this.cart[i].subtotal = c.price * c.quantity
           this.gtotal = this.gtotal + (this.cart[i].subtotal ?? 0)
           // this.cart[i].userId = this.user.id
-  })
+        })
       })).subscribe()
-    
-    
-    // this.user = this.userService.getUser()
-    // this.userService.setCart(this.user.cartItems)
-    // console.log(this.user)
-    
-    // this.userService.getCart().forEach((cart, i) => {
-    //   this.cart.push(cart)
-    // this.cart[i].subtotal = c.price * c.quantity
-    // this.gtotal = this.gtotal + (this.cart[i].subtotal ?? 0)
-    // this.cart[i].userId = this.user.id
-// })
   }
 
   changeFn(event: any) {
@@ -83,12 +70,18 @@ export class CartComponent implements OnInit {
       this.router.navigate([''])
     }else{
       this.cart.forEach((c) => {
-        console.log(c)
-        this.userService.updateCart(c).subscribe()
+        // this.userService.updateCart(c).subscribe()
+        this.userService.getCart().forEach(ucart => {
+          if (c.id == ucart.id){
+            ucart.quantity = c.quantity
+            ucart.subtotal = c.subtotal
+          }
+        })
       })
       this.cart.splice(0)
       this.gtotal = 0
       this.pay = true
+      this.router.navigate(['/checkout'])
     }
   }
 }

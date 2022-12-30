@@ -1,3 +1,4 @@
+import { CheckoutComponent } from './components/checkout/checkout.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { NavidationGuard } from './gaurd/navidation.guard';
 import { ManageItemsComponent } from './components/manage-items/manage-items.component';
@@ -13,13 +14,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'manage/product', component: ManageProductComponent,
     canActivate: [NavidationGuard]},
   {path: 'product/add', component: ManageItemsComponent},
   {path: 'cart/show', component: CartComponent},
+  {path: 'checkout', component: CheckoutComponent},
   {path: '', component: HeaderComponent,
     children:[
       {path: '', component: ItemsComponent},
@@ -27,19 +28,8 @@ const routes: Routes = [
       {path: ':id', component: ItemDetailsComponent},
     ]},
   
-  // {path: '', component: ItemsComponent},
-  // {path: 'signup', component: SignupComponent},
-  // {path: 'login', component: LoginComponent},
-  // {path: 'header', component: HeaderComponent},
-  // {path: 'productview', component: ItemsComponent},
-  // {path: 'manage/product', component: ManageProductComponent},
-  // {path: 'product/add', component: ManageItemsComponent},
-  // {path: ':id', component: ItemDetailsComponent},
-  // {path: 'cart/show', component: CartComponent},
-  // {path: 'categoryitem/delete/'+':id',component: CartComponent},
-  
   {path: '**', redirectTo: 'foodbox', pathMatch: 'full'},
-  ];
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

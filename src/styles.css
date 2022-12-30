@@ -11,7 +11,7 @@ nav{
     background-color: black;
     width: auto;
 }
-/*nav ul {
+nav ul {
     margin: 0;
     padding: 0px;
     overflow:hidden;
@@ -21,19 +21,19 @@ nav ul li{
     list-style: none;
     width: 150px;
 }
-nav a{
+nav li>a{
     display: block;
     text-decoration: none;
     padding: 10px;
     color: wheat;
     font-size: large;
     text-align: center;
-    border-right: 1px solid white;
+    /* border-right: 1px solid white; */
 }
-nav a:hover{
+nav li>a:hover{
     background-color: burlywood;
     color: black; 
-}*/
+}
  
 .header-container header{
     background-color: black;

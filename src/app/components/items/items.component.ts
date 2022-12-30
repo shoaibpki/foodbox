@@ -30,18 +30,19 @@ export class ItemsComponent implements OnInit {
     if (this.isLogin) {
       this.fillCart()
     }
+
     this.userService.getItemsList()
       .subscribe({
         next: items => {
           this.userService.setItems(items)
           this.items = this.userService.getItems()
           if (this.isLogin) {
-            if (this.carts.length != 0 ){
+            if (this.userService.getCart().length != 0 ){
               this.items.forEach(item => {
                 item.cartItems?.forEach(cart => {
-                  this.carts.forEach(ucart => {
+                  this.userService.getCart().forEach(ucart => {
                     if(ucart.id == cart.id ){
-                      console.log(cart.id)
+                      ucart.itemName = item.itemName
                       item.addCart = true
                     }
                   })
@@ -51,6 +52,7 @@ export class ItemsComponent implements OnInit {
           }
         }
       })
+      console.log(this.userService.getCart())
   }
 
   addToCart(event: any, i: any){
@@ -74,25 +76,30 @@ export class ItemsComponent implements OnInit {
               this.items[i].addCart = true
             }
           })
+          this.userService.setCartCount(this.userService.getCartCount()+1)
       }
   }
 
   removFromCart(event: any, i:any){
     this.items[i].cartItems?.forEach(ci => {
-      this.carts.forEach(cart => {
+      this.userService.getCart().forEach(cart => {
         if (cart.id == ci.id){
           this.userService.DeleteItemFromCard(cart.id).subscribe()
         }
       })
     })
+    this.userService.setCartCount(this.userService.getCartCount()-1)
     this.items[i].addCart=false  
   }
 
   fillCart(){
-    this.carts.splice(0, this.carts.length)
+    this.userService.getCart().splice(0)
     this.userService.getCartItemsbyUser(this.userService.getUser().id)
-    .subscribe(carts => carts.forEach(cart => {
-      this.carts.push(cart)
-    }))
+    .subscribe(carts => {
+      this.userService.setCartCount(carts.length)
+      carts.forEach(cart => {
+        this.userService.setCart(cart)
+      })
+    })
   }
 }

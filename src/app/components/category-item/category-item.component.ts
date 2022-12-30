@@ -17,19 +17,20 @@ export class CategoryItemComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.userService.getIsLogin()){
-      this.fillCart()
+      // this.fillCart()
     }
   }
 
   fillCart(){
     if (this.userService.getIsLogin()){
-      this.userService.getCart().splice(0, this.userService.getCart().length)
+      this.userService.getCart().splice(0)
       this.userService.getCartItemsbyUser(this.userService.getUser().id)
-      .subscribe(carts => carts.forEach(cart => {
-        this.userService.setCart(cart)
-      }))
-      console.log(this.userService.getCart())
-  
+        .subscribe(carts => {
+          this.userService.setCartCount(carts.length)
+          carts.forEach(cart => {
+            this.userService.setCart(cart)
+          })
+        })
     }
   }
 

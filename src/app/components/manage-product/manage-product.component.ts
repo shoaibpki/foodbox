@@ -1,3 +1,4 @@
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from './../../interfaces/category';
 import { UserService } from './../../services/user.service';
@@ -11,15 +12,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageProductComponent implements OnInit {
 
+  categories: Category[]=[]
   items: Items[] = []
   search:string=''
-
+  editForm:boolean=false
+  itemForm!: FormGroup
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    this.userService.allItemsForAdmin().subscribe(data => data.forEach(item => {
-      this.items.push(item)
-    }))
+    this.itemForm = new FormGroup({
+      id: new FormControl(),
+      itemName: new FormControl(),
+      price: new FormControl(),
+      availableQty: new FormControl(),
+      itemDescription: new FormControl(),
+      categoryId: new FormControl(),
+      image: new FormControl()
+    })
+
+    this.userService.getAllCategoriesAdmin().subscribe(data =>{
+      this.categories = data
+      this.categories.forEach(category => {
+        category.citem?.forEach((c,i) => {
+          this.items.push(c)
+          this.items.forEach(item => {
+            if (item.id == c.id){
+              item.categoryId = category.id
+              item.categoryName = category.categoryName
+            }
+          })
+        })
+      })
+    })
+    
+
   }
 
   disableItem(event: any, index: number){
@@ -33,6 +59,13 @@ export class ManageProductComponent implements OnInit {
 
   addItem(){
     this.router.navigate(['product/add'])    
+  }
+
+  submit(){
+    let index: number = this.items.findIndex( item => item.id == this.itemForm.value['id'])
+    console.log(this.items[index])
+
+    this.userService.updateCategoryItm(this.itemForm.value).subscribe()
   }
 
 }

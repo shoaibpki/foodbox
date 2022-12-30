@@ -1,21 +1,23 @@
+import { Cart } from './../../interfaces/cart';
 import { Router } from '@angular/router';
 import { Iuser } from './../../interfaces/iuser';
 import { Items } from './../../interfaces/items';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   categories: any;
   user!: Iuser
   role: string =''
-  myinterval: any
-
+  cartCount!:number
+  subs!: Subscription
   constructor(private userService: UserService, private router: Router ) {
    }
 
@@ -28,14 +30,14 @@ export class HeaderComponent implements OnInit {
     if (this.userService.getIsLogin()) {
       this.user = this.userService.getUser()
       this.role = this.user.role
+      this.subs = this.userService.cartChanged.subscribe(count => this.cartCount = count)
     }
     return this.userService.getIsLogin()
   }
-
+  
   logout(){
     setTimeout(() => {
       this.userService.setIsLogin(false)
-      this.role = ''
       this.userService.getCart().splice(0, this.userService.getCart().length)
       this.user = {} as Iuser
       this.userService.setUser(this.user)
@@ -45,5 +47,8 @@ export class HeaderComponent implements OnInit {
     }, 1000);
     this.router.navigate([''])
   }
-
+  
+  ngOnDestroy(){
+    // this.subs.unsubscribe()
+  }
 }

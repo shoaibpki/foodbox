@@ -19,6 +19,7 @@ import { ManageProductComponent } from './components/manage-product/manage-produ
 import { ManageItemsComponent } from './components/manage-items/manage-items.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -36,14 +37,17 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
     ManageProductComponent,
     ManageItemsComponent,
     CarouselComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    CheckoutComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+  
   ],
   providers: [],
   bootstrap: [AppComponent]

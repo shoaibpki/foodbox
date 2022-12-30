@@ -31,7 +31,6 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   getItems(){
-    console.log(this.userService.getCart())
     this.activatedRoute.params.subscribe((params => {
       this.userService.getCategoryById(+params['id']).subscribe({
         next: (cItems) => {
@@ -41,7 +40,7 @@ export class ItemDetailsComponent implements OnInit {
               item.cartItems?.forEach(cart => {
                 this.userService.getCart().forEach(ucart => {
                   if(ucart.id == cart.id ){
-                    console.log(cart.id)
+                    ucart.itemName = item.itemName
                     item.addCart = true
                   }
                 })
@@ -73,6 +72,7 @@ export class ItemDetailsComponent implements OnInit {
               this.categoryItems[i].addCart = true
             }
           })
+          this.userService.setCartCount(this.userService.getCartCount()+1)
       }
   }
 
@@ -84,16 +84,16 @@ export class ItemDetailsComponent implements OnInit {
         }
       })
     })
+    this.userService.setCartCount(this.userService.getCartCount()-1)
     this.categoryItems[i].addCart=false  
   }
 
-  fillCart(){
-    this.carts.splice(0, this.carts.length)
-    this.userService.getCartItemsbyUser(this.userService.getUser().id)
-    .subscribe(carts => carts.forEach(cart => {
-      this.carts.push(cart)
-    }))
-    console.log(this.carts)
-  }
+  // fillCart(){
+  //   this.carts.splice(0, this.carts.length)
+  //   this.userService.getCartItemsbyUser(this.userService.getUser().id)
+  //   .subscribe(carts => carts.forEach(cart => {
+  //     this.carts.push(cart)
+  //   }))
+  // }
 
 }

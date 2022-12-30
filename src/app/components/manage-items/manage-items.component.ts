@@ -16,6 +16,7 @@ export class ManageItemsComponent implements OnInit {
   items!: Items
   message: string = ''
 
+// validators 
   get itemName() {return this.userForm.get('itemName')}
   get categoryId() {return this.userForm.get('categoryId')}
   get price() {return this.userForm.get('price')}

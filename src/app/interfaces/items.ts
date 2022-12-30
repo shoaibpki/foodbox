@@ -11,5 +11,6 @@ export interface Items {
 	categoryId?: number;
 	addCart?: boolean;
 	cartItems?: Cart[]
+	showEdit?: boolean
 
 }
