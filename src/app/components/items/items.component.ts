@@ -4,7 +4,6 @@ import { UserService } from './../../services/user.service';
 import { Items } from './../../interfaces/items';
 import { Input, Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-items',
@@ -30,30 +29,35 @@ export class ItemsComponent implements OnInit {
     if (this.isLogin) {
       this.fillCart()
     }
+    this.updateItems()
 
-    this.userService.getItemsList()
-      .subscribe({
-        next: items => {
-          this.userService.setItems(items)
-          this.items = this.userService.getItems()
-          if (this.isLogin) {
-            if (this.userService.getCart().length != 0 ){
-              this.items.forEach(item => {
-                item.cartItems?.forEach(cart => {
-                  this.userService.getCart().forEach(ucart => {
-                    if(ucart.id == cart.id ){
-                      ucart.itemName = item.itemName
-                      item.addCart = true
-                    }
-                  })
-                })
-              }) 
-            }
-          }
-        }
-      })
       console.log(this.userService.getCart())
   }
+
+  private updateItems(){
+    this.userService.getItemsList()
+    .subscribe({
+      next: items => {
+        this.userService.setItems(items)
+        this.items = this.userService.getItems()
+        if (this.isLogin) {
+          if (this.userService.getCart().length != 0 ){
+            this.items.forEach(item => {
+              item.cartItems?.forEach(cart => {
+                this.userService.getCart().forEach(ucart => {
+                  if(ucart.id == cart.id ){
+                    ucart.itemName = item.itemName
+                    item.addCart = true
+                  }
+                })
+              })
+            }) 
+          }
+        }
+      }
+    })
+
+  } 
 
   addToCart(event: any, i: any){
     this.isLogin = this.userService.getIsLogin()
@@ -88,6 +92,7 @@ export class ItemsComponent implements OnInit {
         }
       })
     })
+
     this.userService.setCartCount(this.userService.getCartCount()-1)
     this.items[i].addCart=false  
   }

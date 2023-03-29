@@ -1,7 +1,5 @@
-import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Cart } from './../../interfaces/cart';
-import { Items } from './../../interfaces/items';
 import { Iuser } from './../../interfaces/iuser';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';

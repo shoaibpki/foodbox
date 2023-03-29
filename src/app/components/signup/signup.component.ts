@@ -31,7 +31,7 @@ export class SignupComponent implements OnInit {
     this.userService.signupUser(this.user)
       .subscribe({
         next: data => this.rUser = data,
-        error: err => this.error = "User Already exist with this Email"
+        error: err => this.error = err.message
       })
     
     if (this.rUser) {

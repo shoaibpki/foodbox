@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userService.setIsLogin(false)
       this.userService.getCart().splice(0, this.userService.getCart().length)
       this.user = {} as Iuser
+      this.role=''
       this.userService.setUser(this.user)
       this.userService.getItems().forEach(item => {
         item.addCart = false

@@ -17,6 +17,7 @@ export class ManageProductComponent implements OnInit {
   search:string=''
   editForm:boolean=false
   itemForm!: FormGroup
+
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
@@ -33,7 +34,7 @@ export class ManageProductComponent implements OnInit {
     this.userService.getAllCategoriesAdmin().subscribe(data =>{
       this.categories = data
       this.categories.forEach(category => {
-        category.citem?.forEach((c,i) => {
+        category.citem?.forEach(c => {
           this.items.push(c)
           this.items.forEach(item => {
             if (item.id == c.id){
@@ -44,8 +45,6 @@ export class ManageProductComponent implements OnInit {
         })
       })
     })
-    
-
   }
 
   disableItem(event: any, index: number){
@@ -67,5 +66,4 @@ export class ManageProductComponent implements OnInit {
 
     this.userService.updateCategoryItm(this.itemForm.value).subscribe()
   }
-
 }
