@@ -12,7 +12,7 @@
             </thead>
             <tbody>
                 <tr class="" *ngFor="let item of cart; let i = index">
-                    <td scope="row"><img style="height: 100px; width: 100px;" class="img-thumbnail rounded-circle" src="/assets/images/{{item.image}}" alt=""></td>
+                    <td scope="row"><img style="height: 100px; width: 100px;" class="img-thumbnail rounded-circle" src="assets/images/{{item.image}}" alt=""></td>
                     <td>{{item.price}}</td>
                     <td><input id="{{i}}" type="number" value ="{{item.quantity}}" min="1" max="10" (change)="changeFn($event, i)" [(ngModel)]="item.quantity" ></td>
                     <td>{{item.subtotal}}</td>
