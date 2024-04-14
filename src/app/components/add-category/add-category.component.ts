@@ -22,10 +22,15 @@ export class AddCategoryComponent implements OnInit {
   catsubmit(form: NgForm){
     this.cat.categoryName = form.value.catname
 
-    this.userService.saveCategory(this.cat).subscribe({
-      next: data => data,
-      error: err => this.cmessage = err['error'].text
-    })
+    // firebase database
+    this.userService.addFirebaseCatagory(this.cat)
+
+
+    // mysql database
+    // this.userService.saveCategory(this.cat).subscribe({
+    //   next: data => data,
+    //   error: err => this.cmessage = err['error'].text
+    // })
   }
 
 }

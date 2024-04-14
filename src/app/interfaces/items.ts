@@ -1,6 +1,7 @@
 import { Cart } from './cart';
 export interface Items {
-    id: number;
+	// $key?: string;
+    id?: any;
 	itemName: string;
 	categoryName?:string;
 	image: string;

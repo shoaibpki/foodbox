@@ -23,9 +23,9 @@ const routes: Routes = [
   {path: 'checkout', component: CheckoutComponent},
   {path: '', component: HeaderComponent,
     children:[
-      {path: '', component: ItemsComponent},
       {path: 'productview', component: ItemsComponent},
       {path: ':id', component: ItemDetailsComponent},
+      {path: '', component: ItemsComponent},
     ]},
   
   {path: '**', redirectTo: 'foodbox', pathMatch: 'full'},

@@ -1,6 +1,8 @@
 import { Items } from './items';
 export interface Category {
-    id?: number;
+    $key?: string;
+    id?: any;
+    disabled?: boolean;
     categoryName: string;
     citem?: Items[];
 }

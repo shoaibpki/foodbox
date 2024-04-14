@@ -1,11 +1,14 @@
 export interface Cart {
+	$key?: any;
     id: number;
 	price: number;
 	quantity: number;
 	image?: string;
-	userId: number;
-	itemId?: number;
+	userId: any;
+	itemId?: any;
+	catagoryId?: any;
 	itemName?: string;
 	subtotal?: number;
-	saleDate: Date;
+	saleDate: any;
+	paymentMode?: string;
 }

@@ -3,8 +3,8 @@
     <article class="card-body mx-auto" style="max-width: 400px">
       <h4 class="card-title mt-3 text-center">Create Account</h4>
       <p class="text-center">Get started with your free account</p>
-      <div class="alert alert-info alert-dismissible" *ngIf="error != ''">
-        {{error}}
+      <div class="alert alert-info alert-dismissible" *ngIf="errorMsg != ''">
+        {{errorMsg}}
       </div>
       <form [formGroup]="userForm" (ngSubmit)="submit()">
         <div class="form-group input-group">

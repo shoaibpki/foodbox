@@ -2,6 +2,7 @@ import { Items } from './../../interfaces/items';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { Category } from 'src/app/interfaces/category';
 
 @Component({
   selector: 'app-category-item',
@@ -10,7 +11,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CategoryItemComponent implements OnInit {
 
-  @Input() categoryItems!: any
+  @Input() categoryItems!: Category;
 
   constructor(private userService: UserService, 
     private activatedRoute: ActivatedRoute) { }
@@ -22,16 +23,16 @@ export class CategoryItemComponent implements OnInit {
   }
 
   fillCart(){
-    if (this.userService.getIsLogin()){
-      this.userService.getCart().splice(0)
-      this.userService.getCartItemsbyUser(this.userService.getUser().id)
-        .subscribe(carts => {
-          this.userService.setCartCount(carts.length)
-          carts.forEach(cart => {
-            this.userService.setCart(cart)
-          })
-        })
-    }
+    // if (this.userService.getIsLogin()){
+    //   this.userService.getCart().splice(0)
+    //   this.userService.getCartItemsbyUser(this.userService.getUser().id)
+    //     .subscribe(carts => {
+    //       this.userService.setCartCount(carts.length)
+    //       carts.forEach(cart => {
+    //         this.userService.setCart(cart)
+    //       })
+    //     })
+    // }
   }
 
 }

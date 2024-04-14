@@ -1,4 +1,4 @@
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyBJ3HhGV5wROBuKcCsYU5JibOmn32_pdds",
     authDomain: "foodbox-6e3ab.firebaseapp.com",
     databaseURL: "https://foodbox-6e3ab-default-rtdb.firebaseio.com",

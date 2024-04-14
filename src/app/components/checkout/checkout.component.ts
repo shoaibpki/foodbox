@@ -1,3 +1,4 @@
+import { Sales } from './../../interfaces/sales';
 import { Cart } from './../../interfaces/cart';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
@@ -13,16 +14,32 @@ export class CheckoutComponent implements OnInit {
 
   @ViewChild('pdfdata') pdfdata!: ElementRef
   cart: Cart[] = []
+  sales: Sales[] = [];
   gTotal: number = 0
   date!: Date
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getCart().forEach(c => {
-      this.date = c.saleDate
-      this.cart.push(c)
-      this.gTotal = this.gTotal + (c.subtotal ?? 0)
+    // firebase database
+    this.sales = this.userService.getFirebaseSales();
+    this.sales.forEach((sale) => {
+      sale.cartItems.forEach((item) => {
+        this.userService.getItems().forEach((itm) => {
+          if (item.itemId === itm.id){
+            item.itemName = itm.itemName
+          }
+        })
+        this.gTotal = this.gTotal + item.subtotal!;
+      })
+      sale.gtotal = this.gTotal;
+      this.gTotal = 0;
     })
+    // mysql database
+    // this.userService.getCart.forEach(c => {
+    //   this.date = c.saleDate
+    //   this.cart.push(c)
+    //   this.gTotal = this.gTotal + (c.subtotal ?? 0)
+    // })
   }
 
   sendEmail(){

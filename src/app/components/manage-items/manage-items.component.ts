@@ -26,34 +26,31 @@ export class ManageItemsComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userForm = new FormGroup({
-      itemName: new FormControl('',[
-        Validators.required
-      ]),
-      itemDescription: new FormControl('',[
-        Validators.required
-      ]),
-      categoryId: new FormControl('',[
-        Validators.required
-      ]),
-      image: new FormControl(''),
-      price: new FormControl(0,[
-        Validators.required
-      ]),
-      availableQty: new FormControl(0,[
-        Validators.required
-      ]),
-      disabled: new FormControl(false)
-    })
+    this.createForm()
     this.getCategory()
     }
-  
-  getCategory(){
-    // this.categories.splice(0, this.categories.length)
-    this.userService.getAllCategoriesAdmin().subscribe(data => this.categories = data)
+
+  createForm(){
+    this.userForm = new FormGroup({
+      itemName: new FormControl('',Validators.required),
+      itemDescription: new FormControl('',Validators.required),
+      categoryId: new FormControl('',Validators.required),
+      image: new FormControl(''),
+      price: new FormControl(0,Validators.required),
+      availableQty: new FormControl(0,[Validators.required]),
+      disabled: new FormControl(false)
+    })
   }
   
-  submit(){
+  getCategory(){
+    // firebase database
+    this.categories = this.userService.getFirebaseCatagories();
+
+    // mysql database
+    // this.userService.getAllCategoriesAdmin().subscribe(data => this.categories = data)
+  }
+  
+  submit(form: any){
 
     if(this.userForm.valid){
       let fullPath: string = this.userForm.value['image']
@@ -61,11 +58,13 @@ export class ManageItemsComponent implements OnInit {
         let filename = fullPath.split('\\').pop()
         this.userForm.value['image'] = filename
       }
-      this.items = this.userForm.value
-      this.userService.saveCategoryItm(this.items).subscribe({
-        next: data => this.message = data,
-        error: err => this.message = err['error'].text
-      })
+      this.userService.addFirebaseCatagoryItem(form)
+      // this.items = this.userForm.value
+
+      // this.userService.saveCategoryItm(this.items).subscribe({
+      //   next: data => this.message = data,
+      //   error: err => this.message = err['error'].text
+      // })
     }
   }
 

@@ -11,7 +11,7 @@ import { Items } from 'src/app/interfaces/items';
 })
 export class ItemDetailsComponent implements OnInit {
 
-  categoryItems!: Items[]
+  categoryItems: Items[] = [];
   isLogin!: boolean
   textSearch: string=''
   carts: Cart[] =[]
@@ -31,25 +31,33 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   getItems(){
-    this.activatedRoute.params.subscribe((params => {
-      this.userService.getCategoryById(+params['id']).subscribe({
-        next: (cItems) => {
-          this.categoryItems = cItems
-          if (this.userService.getCart().length != 0 ){
-            this.categoryItems.forEach(item => {
-              item.cartItems?.forEach(cart => {
-                this.userService.getCart().forEach(ucart => {
-                  if(ucart.id == cart.id ){
-                    ucart.itemName = item.itemName
-                    item.addCart = true
-                  }
-                })
-              })
-            }) 
-          }
-        }
-      })
-    }))
+
+    // firebase database
+    this.activatedRoute.params.subscribe((params) => {
+      let cid = params['id'];
+      this.categoryItems = this.userService.getItems().filter((item) => item.categoryId === cid && !item.disabled)
+    })
+
+    // mysql database
+    // this.activatedRoute.params.subscribe((params => {
+    //   this.userService.getCategoryById(+params['id']).subscribe({
+    //     next: (cItems) => {
+    //       this.categoryItems = cItems
+    //       if (this.userService.getCart().length != 0 ){
+    //         this.categoryItems.forEach(item => {
+    //           item.cartItems?.forEach(cart => {
+    //             this.userService.getCart().forEach(ucart => {
+    //               if(ucart.id == cart.id ){
+    //                 ucart.itemName = item.itemName
+    //                 item.addCart = true
+    //               }
+    //             })
+    //           })
+    //         }) 
+    //       }
+    //     }
+    //   })
+    // }))
   }
 
   addToCart(event: any, i: any){
@@ -60,31 +68,51 @@ export class ItemDetailsComponent implements OnInit {
       alert('Please Login first')
       return
     } else {
-        this.userService.getCategoryItemById(id)
-          .subscribe({
-            next: data => {
-              this.cart.itemId = data.id
-              this.cart.price = data.price
-              this.cart.image = data.image
-              this.cart.quantity = 1
-              this.cart.userId = this.userService.getUser().id
-              this.userService.addToCard(this.cart).subscribe()
-              this.categoryItems[i].addCart = true
-            }
-          })
+        // firebase database
+        let cartItem: Items = this.categoryItems[i];
+        this.cart.itemId = cartItem.id;
+        this.cart.catagoryId = cartItem.categoryId
+        this.cart.price = cartItem.price;
+        this.cart.image = cartItem.image;
+        this.cart.quantity = 1;
+        this.userService.addFirebaseCartItem(this.cart);
+        this.categoryItems[i].addCart = true;
+
+        // mysql database
+        // this.userService.getCategoryItemById(id)
+        //   .subscribe({
+        //     next: data => {
+        //       this.cart.itemId = data.id
+        //       this.cart.price = data.price
+        //       this.cart.image = data.image
+        //       this.cart.quantity = 1
+        //       this.cart.userId = this.userService.getUser().id
+        //       this.userService.addToCard(this.cart).subscribe()
+        //       this.categoryItems[i].addCart = true
+        //     }
+        //   })
           this.userService.setCartCount(this.userService.getCartCount()+1)
       }
   }
 
   removFromCart(event: any, i:any){
-    this.categoryItems[i].cartItems?.forEach(ci => {
-      this.userService.getCart().forEach(cart => {
-        if (cart.id == ci.id){
-          this.userService.DeleteItemFromCard(cart.id).subscribe()
-        }
-      })
-    })
+    // firebase database
+    let item: Items = this.categoryItems[i];
+    let cart: Cart = this.userService.getCart.find((c) =>  c.itemId == item.id)!
+    let cartIndex = this.userService.getCart.findIndex((c) => c.$key === cart.$key)
+    this.userService.removeFirebaseCartItem(cart.$key)
+
+
+    // mysql database
+    // this.categoryItems[i].cartItems?.forEach(ci => {
+    //   this.userService.getCart.forEach(cart => {
+    //     if (cart.id == ci.id){
+    //       this.userService.DeleteItemFromCard(cart.id).subscribe()
+    //     }
+    //   })
+    // })
     this.userService.setCartCount(this.userService.getCartCount()-1)
+    this.userService.getCart.splice(cartIndex, 1)
     this.categoryItems[i].addCart=false  
   }
 

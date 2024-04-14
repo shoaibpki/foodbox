@@ -1,3 +1,4 @@
+import { Category } from 'src/app/interfaces/category';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit,Input } from '@angular/core';
 
@@ -8,7 +9,7 @@ import { Component, OnInit,Input } from '@angular/core';
 })
 export class CategoryComponent implements OnInit {
 
-  @Input() categories: any
+  @Input() categories!: Category;
 
   constructor(private userService: UserService) { }
 

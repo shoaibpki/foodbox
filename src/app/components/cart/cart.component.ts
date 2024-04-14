@@ -18,7 +18,7 @@ export class CartComponent implements OnInit {
   cartItems: number = 0
   gtotal: number = 0
   pay: boolean= false
-  userId!: number
+  userId!: number;
 
   constructor(private userService: UserService, private router: Router) {
 
@@ -26,39 +26,69 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.getUser()
-    this.userId = this.user.id
-    this.userService.getCartItemsbyUser(this.userId)
-      .pipe( map(data => {
-        data.forEach((c,i) =>{
-          this.cart.push(c)
-          this.cart[i].subtotal = c.price * c.quantity
-          this.gtotal = this.gtotal + (this.cart[i].subtotal ?? 0)
-          // this.cart[i].userId = this.user.id
-        })
-      })).subscribe()
+
+    // firebase database
+    this.cart = this.userService.getCart;
+    this.cart.forEach((cart) => {
+      cart.subtotal = cart.price * cart.quantity;
+      this.gtotal = this.gtotal + cart.subtotal;
+      cart.userId = this.user.$key
+    })
+
+    // mysql database
+    // this.userId = this.user.id
+    // this.userService.getCartItemsbyUser(this.userId)
+    //   .pipe( map(data => {
+    //     data.forEach((c,i) =>{
+    //       this.cart.push(c)
+    //       this.cart[i].subtotal = c.price * c.quantity
+    //       this.gtotal = this.gtotal + (this.cart[i].subtotal ?? 0)
+    //       // this.cart[i].userId = this.user.id
+    //     })
+    //   })).subscribe()
   }
 
-  changeFn(event: any) {
-    let target: any = event.target || event.srcElement || event.currentTarget
-    let idAttr = target.attributes.id
-    let index: number= idAttr.nodeValue
+  changeFn(event: any, i: number) { // i add firebase database
 
-    this.gtotal = this.gtotal - (this.cart[index].subtotal ?? 0)
-    this.cart[index].quantity = event.target.value
-    this.cart[index].subtotal = event.target.value * this.cart[index].price;
-    this.gtotal = this.gtotal + (this.cart[index].subtotal ?? 0)
+    // firebase database
+    this.gtotal = this.gtotal - this.cart[i].subtotal!;
+    this.cart[i].subtotal = this.cart[i].quantity * this.cart[i].price;
+    this.gtotal = this.gtotal + this.cart[i].subtotal!
+    this.userService.updateFirebaseCart(this.cart[i])
+
+
+    // mysql database
+    // let target: any = event.target || event.srcElement || event.currentTarget
+    // let idAttr = target.attributes.id
+    // let index: number= idAttr.nodeValue
+    // this.gtotal = this.gtotal - (this.cart[index].subtotal ?? 0)
+    // this.cart[index].quantity = event.target.value
+    // this.cart[index].subtotal = event.target.value * this.cart[index].price;
+    // this.gtotal = this.gtotal + (this.cart[index].subtotal ?? 0)
 
   }
   
-  deleItem(event: any, element: any){
-    let target: any = event.target || event.srcElement || event.currentTarget
-    let idAttr = target.attributes.id
-    let id = idAttr.nodeValue
-    this.userService.DeleteItemFromCard(id).subscribe()
-    this.gtotal = this.gtotal - (this.cart[element].subtotal ?? 0)
-    this.cart.splice(element,1)
-    console.log(this.cart)
+  deleItem(event: any, index: any){
+    let key = this.cart[index].$key;
+
+    // let target: any = event.target || event.srcElement || event.currentTarget
+    // let idAttr = target.attributes.id
+    // let id = idAttr.nodeValue
+    // this.userService.DeleteItemFromCard(id).subscribe()
+    // this.gtotal = this.gtotal - (this.cart[element].subtotal ?? 0)
+    this.userService.removeFirebaseCartItem(key)
+      .then(val => {
+        console.log('Deleted Successfully!')
+        this.userService.getItems().forEach((item) => {
+          if(item.id === this.cart[index].itemId){
+            item.addCart = false
+          }
+        })
+        this.cart.splice(index,1);
+      });
+      
   }
+  
   back(){
     this.router.navigate([''])
   }
@@ -67,19 +97,25 @@ export class CartComponent implements OnInit {
     if (this.cart.length == 0) {
       this.router.navigate([''])
     }else{
-      this.cart.forEach((c) => {
-        // this.userService.updateCart(c).subscribe()
-        this.userService.getCart().forEach(ucart => {
-          if (c.id == ucart.id){
-            ucart.quantity = c.quantity
-            ucart.subtotal = c.subtotal
-          }
-        })
-      })
-      this.cart.splice(0)
-      this.gtotal = 0
-      this.pay = true
-      this.router.navigate(['/checkout'])
+      // firebase database
+      this.userService.paidFirebaseCart()
+      this.cart = this.userService.getCart;
+      this.userService.setCartCount(this.userService.getCart.length)
+
+      // mysql database
+      // this.cart.forEach((c) => {
+      //   // this.userService.updateCart(c).subscribe()
+      //   this.userService.getCart().forEach(ucart => {
+      //     if (c.id == ucart.id){
+      //       ucart.quantity = c.quantity
+      //       ucart.subtotal = c.subtotal
+      //     }
+      //   })
+      // })
+      // this.cart.splice(0)
+      // this.gtotal = 0
+      // this.pay = true
+      // this.router.navigate(['/checkout'])
     }
   }
 }

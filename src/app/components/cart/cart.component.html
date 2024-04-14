@@ -1,7 +1,7 @@
 <div class="container mt-5 w-75">
     <div class="table-responsive-sm">
         <table class="table">
-            <thead>
+            <thead class="table-dark">
                 <tr>
                     <th scope="col">Product</th>
                     <th scope="col">Price</th>
@@ -12,13 +12,13 @@
             </thead>
             <tbody>
                 <tr class="" *ngFor="let item of cart; let i = index">
-                    <td scope="row"><img style="height: 100px; width: 100px;" class="img-thumbnail rounded-circle" src="../../../assets/images/{{item.image}}" alt=""></td>
+                    <td scope="row"><img style="height: 100px; width: 100px;" class="img-thumbnail rounded-circle" src="/assets/images/{{item.image}}" alt=""></td>
                     <td>{{item.price}}</td>
-                    <td><input id="{{i}}" type="number" value ="{{item.quantity}}" min="1" max="10" (change)="changeFn($event)" ></td>
+                    <td><input id="{{i}}" type="number" value ="{{item.quantity}}" min="1" max="10" (change)="changeFn($event, i)" [(ngModel)]="item.quantity" ></td>
                     <td>{{item.subtotal}}</td>
                     <td>
                         <button class="btn btn-danger">
-                            <i id="{{item.id}}" (click) ="deleItem($event,i)" class="bi bi-trash"></i>
+                            <i id="{{item.id}}" (click)="deleItem($event,i)" class="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>

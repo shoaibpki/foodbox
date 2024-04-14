@@ -2,6 +2,7 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
+
 /* body{
     font-family: 'Bellefair', serif;
 } */
@@ -10,6 +11,9 @@ nav{
     font-family: 'Bellefair', serif;
     background-color: black;
     width: auto;
+}
+.cart{
+    transform:  translate(-102%,-23%);
 }
 nav ul {
     margin: 0;
