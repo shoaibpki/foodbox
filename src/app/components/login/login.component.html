@@ -1,13 +1,50 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand ms-5" routerLink="productview">Foodbox</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="navbar-nav ms-auto me-5">
+        <form class="d-flex" [formGroup]="userForm" (ngSubmit)="submit()">
+          <input
+              formControlName="email"
+              class="form-control"
+              placeholder="Email address"
+              type="email"
+          />
+          <div class="px-3 pt-2"> <div class="vr bg-light"></div></div>
+          <input
+            formControlName="password"
+            class="form-control"
+            placeholder="Password"
+            type="password"
+          />
+          <div class="px-3 pt-2"> <div class="vr bg-light"></div></div>
+          <button type="submit" class="btn btn-outline-success btn-block">
+            Login
+          </button>
+          <div class="px-3 pt-2"> <div class="vr bg-light"></div></div>
+          <button (click)="mainPage()" class="btn btn-outline-warning btn-block">
+            Cancel
+          </button>
+        </form>  
+      </div>
+    </div>
+  </div>
+</nav> -->
+
 <div class="container mt-3">
-    <div class="card bg-light">
-      <article class="card-body mx-auto" style="max-width: 400px">
-        <h4 class="card-title mt-3 text-center">Login</h4>
+    <div class="card w-50 mx-auto p-3 sh">
+      <div class="card-header bg-info mb-3">
+        <h4>Login</h4>
+      </div>
+      <article class="card-body">
         <form [formGroup]="userForm" (ngSubmit)="submit()">
-          <!-- form-group// -->
-          <div class="form-group input-group">
+          <div class="form-group input-group mb-2">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi bi-envelope"></i>
+                <i class="bi bi-envelope text-info"></i>
               </span>
             </div>
             <input
@@ -17,10 +54,9 @@
               type="email"
             />
           </div>
-          <!-- form-group end.// -->
-          <div class="form-group input-group">
+          <div class="form-group input-group mb-2">
             <div class="input-group-prepend">
-              <span class="input-group-text"> <i class="bi bi-lock-fill"></i> </span>
+              <span class="input-group-text"> <i class="bi bi-lock-fill text-info"></i> </span>
             </div>
             <input
               formControlName="password"
@@ -29,19 +65,20 @@
               type="password"
             />
           </div>
-          <!-- form-group// -->
-          <div class="form-group mt-1">
-            <button type="submit" class="btn btn-primary btn-block">
+          <div class="form-group">
+            <button type="submit" class="form-control mb-2 btn btn-outline-success btn-block">
               Login
             </button>
+            <button (click)="mainPage()" class="form-control btn btn-outline-warning btn-block">
+              Cancel
+            </button>
           </div>
-        </form>
+      </form>
       </article>
       <div class="alert alert-danger alert-dismissible" *ngIf="error != ''">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <strong>Error!</strong>{{error}} 
       </div>
     </div>
-    <!-- card.// -->
   </div>
   

@@ -10,8 +10,8 @@
             />
         </div>
     </div>
-    <div class="row mb-0 mt-5">
-        <div class="card ms-1 mt-1" style="width: 16rem;" *ngFor="let i = index; let ci of categoryItems | filter: textSearch">
+    <div class="row mb-0 mt-5" [@selectRecord]=" pid != cid? 'default' : 'selected'" (@selectRecord.start)="startAnimation()">
+        <div class="card ms-1 mt-1" style="width: 16rem;" *ngFor="let i = index; let ci of categoryItems | filter: textSearch"  [@selectRecord]="selectIndex != i? 'default' : 'selected'">
             <img style="width: 150px; height:150px;" src="assets/images/{{ci.image}} "  class="card-img-top w-100 img-thumbnail" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{ci.itemName}}</h5>

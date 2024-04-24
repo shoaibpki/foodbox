@@ -6,11 +6,15 @@ import { Input, Component, OnInit, AfterContentInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { Category } from 'src/app/interfaces/category';
 import { filter, from, map } from 'rxjs';
+import { selectRecordState } from 'src/app/animations';
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css']
+  styleUrls: ['./items.component.css'],
+  animations: [
+    selectRecordState
+  ]
 })
 export class ItemsComponent implements OnInit, AfterContentInit {
 
@@ -21,6 +25,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
   addCart: boolean = false
   textSearch: string=''
   isLogin!: boolean
+  selectIndex: number = 0;
 
   constructor(
     private userService: UserService, 
@@ -35,6 +40,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
     this.items = this.userService.getItems()
 
     if (this.isLogin) {
+      console.log(this.userService.getItems())
       this.items = this.userService.getItems().filter((item) =>  !item.disabled)
       // this.fillCart()
     }      
@@ -70,6 +76,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
   } 
 
   addToCart(event: any, i: any){
+    this.selectIndex = i;
     this.isLogin = this.userService.getIsLogin()
 
     // mysql database
@@ -109,6 +116,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
   }
 
   removeFromCart(event: any, i:any){
+    this.selectIndex = i;
     let item: Items = this.items[i];
     let cart: Cart = this.userService.getCart.find((c) =>  c.itemId == item.id)!
     let cartIndex = this.userService.getCart.findIndex((c) => c.$key === cart.$key)

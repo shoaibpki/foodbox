@@ -5,70 +5,99 @@
     </ul>
 </nav>
 <div class="container w-50 mt-3">
-    <app-add-category></app-add-category>
-    <form [formGroup]="userForm" (submit)="submit(userForm.value)">
-        <div class="row mt-3">
-            <div class="form-group col col-md-6">
-              <label for="itemName" class="form-label">Item Name</label>
-              <input type="text" class="form-control" formControlName="itemName">
-              <div *ngIf="itemName?.invalid && (itemName?.dirty || itemName?.touched)" class="alert alert-danger">
-                <p *ngIf="itemName?.errors?.['required']">Item Name is required</p>
-              </div>
-            </div>
-            <div class="form-group col col-md-6">
-                <label for="categoryId" class="form-label">Choose Category</label>
-                <select class="form-select" formControlName="categoryId" aria-label="Default select example" (click)="getCategory()">
-                    <option *ngFor="let category of categories" [ngValue]="category.id">  
-                        {{category.categoryName}}
-                    </option>
-                </select>
-                <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)" class="alert alert-danger">
-                    <p *ngIf="categoryId?.errors?.['required']">Category is required</p>
-                </div>
-            </div>
-            <div class="row mt-2">
-                <div class="form-group col col-md-6">
-                    <label for="image" class="form-label">Select Image</label>
-                    <input class="form-control" type="file" accept=".jpg, .png, .jpeg| image/*|MIME_type" formControlName="image">
-                </div>
-                <div class="form-group col col-md-6">
-                    <label class="form-label" for="price">Price: </label>
-                    <input class="form-control" formControlName="price" type="number" min="1" >
-                </div>
-                <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="alert alert-danger">
-                    <p *ngIf="price?.errors?.['required']">Price is required</p>
-                </div>
-            </div>
+    <legend>
+        <span>Category</span> 
+        <div class="vr ms-3"></div>
+        <i class="bi bi-plus-square-fill ms-3" role="button" (click)="showCatagory = !showCatagory" *ngIf="!minusIcon"></i>
+        <i class="bi bi-dash-square-fill ms-3" role="button" (click)="showCatagory = !showCatagory" *ngIf="minusIcon"></i>
+    </legend>
+    <div  class="overflow-hidden">
+        <app-add-category 
+            *ngIf="showCatagory"
+            @addCatagory
+            (@addCatagory.done)="afterShow()">
+        </app-add-category>
+    </div>
 
-            <div class="row mt-2">
-                <div class="form-group col-md-9">
-                    <label for="itemDescription">Item Description</label>
-                    <textarea class="form-control" formControlName="itemDescription" [maxlength]="60"></textarea>
-                </div>
-                <div *ngIf="itemDescription?.invalid && (itemDescription?.dirty || itemDescription?.touched)" class="alert alert-danger">
-                    <p *ngIf="itemDescription?.errors?.['required']">Price is required</p>
+    <div class="row">
+        <div class="card shadow-lg" [@catagoryItemSlide]="showCatagory? 'slideDown':'slideUp'">
+            <div class="card-header">
+                <h4>Add Product Form</h4>
+            </div>
+            <div class="card-title">
+                <div class="col col-sm-11 alert alert-info alert-dismissible position-absolute" style="z-index: 1;" *ngIf="message != ''" @showMsg>
+                    <strong>{{message}}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closedMsg()" ></button> 
                 </div>
             </div>
-           
-            <div class="row mt-2">
-                <div class="form-group col col-md-6">
-                    <label for="availableQty" class="form-label">Set Item Quantity</label>
-                    <input type="number" class="form-control" formControlName="availableQty" min="1">
-                    <div *ngIf="availableQty?.invalid && (availableQty?.dirty || availableQty?.touched)" class="alert alert-danger">
-                        <p *ngIf="availableQty?.errors?.['required']">Quantity is required</p>
+            <form [formGroup]="userForm" (submit)="submit(userForm.value)">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col col-sm-6">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" formControlName="itemName">
+                            <div *ngIf="itemName?.invalid && (itemName?.dirty || itemName?.touched)" class="alert alert-danger">
+                            <p *ngIf="itemName?.errors?.['required']">Item Name is required</p>
+                            </div>
+                        </div>
+                        <div class="form-group col col-sm-6">
+                            <label for="categoryId" class="form-label">Choose Category</label>
+                            <select class="form-select" formControlName="categoryId" aria-label="Default select example" (click)="getCategory()">
+                                <option *ngFor="let category of categories" [ngValue]="category.id">  
+                                    {{category.categoryName}}
+                                </option>
+                            </select>
+                            <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)" class="alert alert-danger">
+                                <p *ngIf="categoryId?.errors?.['required']">Category is required</p>
+                            </div>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col col-sm-6">
+                            <label for="image" class="form-label">Select Image</label>
+                            <input class="form-control" type="file" accept=".jpg, .png, .jpeg| image/*|MIME_type" formControlName="image">
+                        </div>
+                        <div *ngIf="image?.invalid && (image?.dirty || image?.touched)" class="alert alert-danger">
+                            <p *ngIf="image?.errors?.['required']">image is required</p>
+                        </div>
+                        <div class="form-group col col-sm-6">
+                            <label class="form-label" for="price">Price: </label>
+                            <input class="form-control" formControlName="price" type="number">
+                        </div>
+                        <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="alert alert-danger">
+                            <p *ngIf="price?.errors?.['required']">Price is required</p>
+                        </div>
+                    </div>        
+                    <div class="row">
+                        <div class="form-group col-sm-9">
+                            <label for="itemDescription">Item Description</label>
+                            <textarea class="form-control" formControlName="itemDescription" [maxlength]="60"></textarea>
+                        </div>
+                        <div *ngIf="itemDescription?.invalid && (itemDescription?.dirty || itemDescription?.touched)" class="alert alert-danger">
+                            <p *ngIf="itemDescription?.errors?.['required']">Required Field</p>
+                        </div>
+                    </div>                        
+                    <div class="row">
+                        <div class="form-group col col-sm-6">
+                            <label for="availableQty" class="form-label">Set Item Quantity</label>
+                            <input type="number" class="form-control" formControlName="availableQty">
+                            <div *ngIf="availableQty?.invalid && (availableQty?.dirty || availableQty?.touched)" class="alert alert-danger">
+                                <p *ngIf="availableQty?.errors?.['required']">Quantity is required</p>
+                            </div>
+                            </div>
+                        <div class="form-group col col-sm-6 form-check form-switch mt-5">
+                            <input type="checkbox" class="form-check-input" formControlName="disabled" role="switch">Is Disabled
+                        </div>
                     </div>
-                <div class="form-group col col-md-6 form-check form-switch mt-5">
-                    <input type="checkbox" class="form-check-input" formControlName="disabled" role="switch">Is Disabled
                 </div>
-            </div>
-            <div class="clearfix">
-                <button class="btn btn-success btn-lg mt-2 float-start" type="submit">Submit</button>
-                <!-- <button (click)="getCategory()">update</button> -->
-                <div class="alert alert-success float-start mx-3" *ngIf="message != ''">{{message}}</div>
-                <button class="btn btn-warning btn-lg mt-2 float-end" type="button" (click)="reset()">Reset</button>
-            </div>
+                <div class="card-footer">
+                    <div class="clearfix">
+                        <button class="btn btn-success btn-lg mt-2 float-start" type="submit" [disabled]="userForm.invalid">Add Product</button>
+                        <button class="btn btn-warning btn-lg mt-2 float-end" type="button" (click)="reset()">Reset</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 

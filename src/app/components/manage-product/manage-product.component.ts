@@ -1,22 +1,33 @@
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Category } from './../../interfaces/category';
 import { UserService } from './../../services/user.service';
 import { Items } from './../../interfaces/items';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostBinding, OnInit, ViewChild } from '@angular/core';
+import { fadeEffectState, modalEffectState, showMsgState } from 'src/app/animations';
 
 @Component({
   selector: 'app-manage-product',
   templateUrl: './manage-product.component.html',
-  styleUrls: ['./manage-product.component.css']
+  styleUrls: ['./manage-product.component.css'],
+  animations: [
+    fadeEffectState,
+    showMsgState,
+    modalEffectState
+  ]
 })
 export class ManageProductComponent implements OnInit {
 
+  @HostBinding('@fadeEffect') dEffect=true;
+
+  showModal: boolean  = false;
   catagories: Category[]=[]
   items: Items[] = []
   search:string=''
-  // editForm:boolean=false
+  spinner:boolean=false
   itemForm!: FormGroup
+  showMsg: string = '';
+  @ViewChild('btnSave') saveBtn!: ElementRef<HTMLSelectElement>;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -53,31 +64,27 @@ export class ManageProductComponent implements OnInit {
   createForm(){
     this.itemForm = new FormGroup({
       id: new FormControl(),
-      itemName: new FormControl(),
-      price: new FormControl(),
-      availableQty: new FormControl(),
-      itemDescription: new FormControl(),
+      itemName: new FormControl(null, Validators.required),
+      price: new FormControl(null, Validators.required),
+      availableQty: new FormControl(null, Validators.required),
+      itemDescription: new FormControl(null, Validators.required),
       categoryId: new FormControl(),
       image: new FormControl()
     })
   }
 
   fetchValue(index: any){
+    this.showModal = true
     let item: Items = this.items[index];
-    if (!item.showEdit){
-      item.showEdit = true;
-      this.itemForm.patchValue({
-        id: item.id,
-        itemName: item.itemName,
-        price: item.price,
-        availableQty: item.availableQty,
-        itemDescription: item.itemDescription,
-        categoryId: item.categoryId,
-        
-        })
-    }else {
-      item.showEdit = false;
-    }
+    this.saveBtn.nativeElement.disabled = false;
+    this.itemForm.patchValue({
+      id: item.id,
+      itemName: item.itemName,
+      price: item.price,
+      availableQty: item.availableQty,
+      itemDescription: item.itemDescription,
+      categoryId: item.categoryId,  
+    })
   }
 
   disableItem(event: any, index: number){
@@ -99,6 +106,8 @@ export class ManageProductComponent implements OnInit {
 
   submit(){
     let index: number = this.items.findIndex( item => item.id == this.itemForm.value['id'])
+    this.saveBtn.nativeElement.disabled = true
+    this.spinner = true
 
     // firebase database
     this.items[index].itemDescription = this.itemForm.value['itemDescription'];
@@ -106,9 +115,20 @@ export class ManageProductComponent implements OnInit {
     this.items[index].price = this.itemForm.value['price'];
     this.items[index].availableQty = this.itemForm.value['availableQty'];
     this.items[index].categoryId = this.itemForm.value['categoryId']
-    this.userService.updatefirebaseCatagoryItm(this.items[index])
+
+    setTimeout(() => {
+      this.userService.updatefirebaseCatagoryItm(this.items[index])
+      this.showMsg = 'Successfully Saved product!';
+      this.spinner = false; 
+    }, 3000);
+    
 
     // mysql database
     // this.userService.updateCategoryItm(this.itemForm.value).subscribe()
+  }
+
+  closedMsg(){
+    this.showModal = false;
+    this.showMsg = ''
   }
 }

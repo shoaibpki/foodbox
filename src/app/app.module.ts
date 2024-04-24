@@ -20,7 +20,7 @@ import { ManageItemsComponent } from './components/manage-items/manage-items.com
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +47,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule
   
   ],
   providers: [],

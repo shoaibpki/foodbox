@@ -11,7 +11,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="" *ngFor="let item of cart; let i = index">
+                <tr *ngIf="cart.length == 0">
+                    <h4>No Cart Items, Keep Shopping!</h4>  
+                </tr>
+                <tr class="" *ngFor="let item of cart; let i = index" @deleteRecord>
                     <td scope="row"><img style="height: 100px; width: 100px;" class="img-thumbnail rounded-circle" src="assets/images/{{item.image}}" alt=""></td>
                     <td>{{item.price}}</td>
                     <td><input id="{{i}}" type="number" value ="{{item.quantity}}" min="1" max="10" (change)="changeFn($event, i)" [(ngModel)]="item.quantity" ></td>

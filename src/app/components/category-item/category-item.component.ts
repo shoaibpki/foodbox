@@ -1,16 +1,20 @@
 import { Items } from './../../interfaces/items';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { Category } from 'src/app/interfaces/category';
+import { fadeEffectState } from 'src/app/animations';
 
 @Component({
   selector: 'app-category-item',
   templateUrl: './category-item.component.html',
-  styleUrls: ['./category-item.component.css']
+  styleUrls: ['./category-item.component.css'],
+  animations: [
+    fadeEffectState
+  ]
 })
 export class CategoryItemComponent implements OnInit {
-
+  // @HostBinding('fadeEffect') fadeeffect = true;
   @Input() categoryItems!: Category;
 
   constructor(private userService: UserService, 

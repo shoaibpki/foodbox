@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
         <a class="navbar-brand ms-5" href="">FoodBox</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <div class="navbar-nav mb-2 mb-lg-0">
@@ -10,12 +10,12 @@
                 <a class=" nav-item nav-link" *ngIf="islogin() && role==='ADMIN'"  routerLink="manage/product">Manage Product</a>
             </div>
             <div class="navbar-nav ms-auto me-5">
-                <a class="nav-item nav-link position-relative mx-3 p-0" role="button" *ngIf="islogin() && role === 'CUSTOMER'" routerLink="cart/show"><i class="bi bi-cart3 text-warning" style="font-size: 28px;"></i><span class="position-absolute cart bg-opacity-50 badge rounded-pill bg-warning text-light" *ngIf="cartCount != 0">{{cartCount}}</span></a>
+                <a class="nav-item nav-link position-relative mx-3 p-0" role="button" *ngIf="islogin() && role === 'CUSTOMER'" routerLink="cart/show"><i class="bi bi-cart3 text-warning" style="font-size: 28px;"></i><span class="position-absolute cart bg-opacity-50 badge rounded-pill bg-warning text-light" *ngIf="cartCount != 0" @cartTrigger [@cartCounter]="cartCount>0? 'increase': 'decrease'" >{{cartCount}}</span></a>
                 <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="signup">Sign Up</a>
                 <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="login">Login</a>
                 <div class="nav-item dropdown" *ngIf="islogin()">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{user.name|titlecase}}</a>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu bg-warning">
                         <a class="dropdown-item" routerLink="logout" (click)="logout()">Logout</a>
                         <a class="dropdown-item" routerLink="checkout">Purchases</a>
                     </div>
@@ -24,22 +24,30 @@
         </div>
     </nav>
     <div class="row mt-5">
-        <div  id="sidemenu" class="card col-sm-3 border-0">
-            <!-- <h4 class="card-header">
-                Categories
-            </h4> -->
-            <ul class="list-group list-group-flush mt-5">
-                <li class="list-group-item" *ngFor="let catagory of catagories">
-                    <app-category [categories]="catagory"></app-category>
-                </li>
-            </ul>
+        <div class="col-sm-3">
+            <div  id="sidemenu" class="card border-0  position-fixed">
+                <!-- <h4 class="card-header">
+                    Categories
+                </h4> -->
+                <ul class="list-group list-group-flush mt-5" [@slideRight]="catagories.length" >
+                    <li class="list-group-item" *ngFor="let catagory of catagories">
+                        <app-category [categories]="catagory"></app-category>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="col-sm-1 d-flex mt-5" style="height: 500px;">
-            <div class="vr"></div>
+        <div class="col-sm-1">
+            <div class="d-flex mt-5 position-fixed" style="height: 500px;">
+                <div class="vr"></div>
+            </div>
         </div>
         <div class="col-sm-8">
-            <app-carousel></app-carousel>
-            <router-outlet></router-outlet>
+            <div class="row">
+                <app-carousel></app-carousel>
+            </div>
+            <div class="row">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
 </div>

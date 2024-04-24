@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
 
@@ -25,6 +25,11 @@ export class LoginComponent implements OnInit {
       email: new FormControl(),
       password: new FormControl()
     })
+  }
+
+  mainPage(){
+    this.userService.loginMenu = false;
+    this.router.navigate(['']);
   }
 
   submit(){
@@ -48,14 +53,13 @@ export class LoginComponent implements OnInit {
           this.userService.setIsLogin(true)
           this.userService.getFirebaseUser(userCredential.user.uid);
           this.userService.getFirebaseCartItems();
+          this.userService.loginMenu = false;
           this.router.navigate(['']);
         })
         .catch((error) => {
           console.log(error)
         })
     } 
-
-
     // mysql database...
     // this.userService.getLogin(this.userForm.value['email'],
     //   this.userForm.value['password']).subscribe({

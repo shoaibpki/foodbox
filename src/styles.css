@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~bootstrap-icons/font/bootstrap-icons.css";
+/* @import "~@fortawesome/fontawesome-free/css/all.css"; */
 @import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
 
 /* body{
@@ -45,9 +46,10 @@ nav li>a:hover{
     text-transform: capitalize;
     color: wheat;
 }
-#sidemensu{
-    width: 16%;
+#sidemenu{
+    width: 25%;
     padding: 0 2%;
+    overflow: hidden;
 }
 #sidemenu ul{
     font-family: 'Bellefair', serif;

@@ -1,14 +1,12 @@
 <form #catForm="ngForm" (ngSubmit)="catsubmit(catForm)">
     <fieldset>
-        <legend>Category |<i class="bi bi-plus-square-fill mx-2" data-bs-toggle="collapse" data-bs-target="#addcat"></i>
-        </legend>
-        <div id="addcat" class="collapse">
+        <div>
             <label for="catname" class="form-label">Category Name:</label>
-            <input type="text" class="form-control" name="catname" ngModel #catname="ngModel" required>
+            <input type="text" class="form-control" name="catname" ngModel #catname="ngModel" placeholder="Catagory name..." required>
             <div *ngIf="catname.invalid && (catname.dirty || catname.touched)" class="alert alert-danger">
                 <p *ngIf="catname?.errors?.['required']">Category Name is required</p>
             </div>
-            <button class="btn btn-success mt-2" type="submit">Add Category</button>
+            <button class="btn btn-success mt-2" type="submit" [disabled]="catForm.invalid">Add Category</button>
             <div class="alert alert-success float-start mx-3" *ngIf="cmessage != ''">{{cmessage}}</div>
         </div>
     </fieldset>

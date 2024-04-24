@@ -12,7 +12,6 @@
         </div>
     </div>
     <div class="mt-2">
-    <form [formGroup]="itemForm" (ngSubmit)="submit()">
         <table  class="table table-bordered align-middle">
             <thead>
                 <tr class="table-secondary">
@@ -39,56 +38,87 @@
                             <input id="{{item.id}}" class="form-check-input" type="checkbox" name="disabled" value="yes" [checked]="item.disabled" (change)="disableItem($event , i)">
                         </div>
                     </td>
-                    <td><button class="btn btn-primary" type="button">
+                    <td><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#editItem">
                             <i class="bi bi-pencil" (click)="fetchValue(i)"></i>
                         </button>
                     </td>
                 </tr>
-                <tr *ngIf="item.showEdit">
-                    <td colspan="3">
-                        <div class="form-group">
-                            <label for="itemName" class="form-label">Item Name</label>
-                            <input type="text" class="form-control" formControlName="itemName">
-                        </div> 
-                    </td>
-                    <td colspan="2">
-                        <div class="form-group">
-                            <label class="form-label" for="price">Price: </label>
-                            <input class="form-control" formControlName="price" type="number" min="1">
-                        </div>
-                    </td>
-                    <td colspan="3">
-                        <div class="form-group">
-                            <label class="form-label" for="categoryId">Category</label>
-                            <select class="form-select" formControlName="categoryId" aria-label="Default select example">
-                                <option *ngFor="let category of catagories" [ngValue]="category.id">  
-                                    {{category.categoryName}}
-                                </option>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr *ngIf="item.showEdit">
-                    <td colspan="2">
-                        <div class="form-group">
-                            <label class="form-label" for="availableQty">Quantity: </label>
-                            <input class="form-control" formControlName="availableQty" type="number" min="1">
-                        </div>
-                    </td>
-                    <td colspan="4">
-                        <div class="form-group">
-                            <label class="form-label" for="itemDescription">Item Description: </label>
-                            <textarea class="form-control" formControlName="itemDescription"></textarea>
-                        </div>
-                    </td>
-                    <td colspan="2">
-                        <input type="hidden" formControlName="id">
-                        <input type="hidden" formControlName="image">
-                        <button class="btn btn-success" type="submit">Save item</button>
-                    </td>
-                </tr>
             </tbody>
         </table>
-    </form>
     </div>
+    <div class="modal fade" id="editItem" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" [@modalEffect]="showModal? 'showed': 'hidden'">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Product Edit Form</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closedMsg()"></button>
+            </div>
+            <form [formGroup]="itemForm" (ngSubmit)="submit()">
+                <div class="modal-body">
+                    <div class="row  position-absolute" style="z-index: 1;width: 100%;" *ngIf="showMsg != ''" @showMsg>
+                        <div class="col-sm">
+                            <div class="alert alert-info alert-dismissible" role="alert" >
+                                <strong> {{showMsg}} </strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closedMsg()" ></button> 
+                            </div>      
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="itemName" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" formControlName="itemName">
+                            </div>
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label class="form-label" for="price">Price: </label>
+                                    <input class="form-control" formControlName="price" type="number" min="1">
+                                </div>
+                            </div>     
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label class="form-label" for="categoryId">Category</label>
+                                <select class="form-select" formControlName="categoryId" aria-label="Default select example">
+                                    <option *ngFor="let category of catagories" [ngValue]="category.id">  
+                                        {{category.categoryName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label class="form-label" for="availableQty">Quantity: </label>
+                                <input class="form-control" formControlName="availableQty" type="number" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label class="form-label" for="itemDescription">Item Description: </label>
+                                <textarea class="form-control" formControlName="itemDescription"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" formControlName="id">
+                        <input type="hidden" formControlName="image">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closedMsg()">Cancel</button>
+                    <button #btnSave class="btn btn-success" type="submit" style="width: 118.25px;" [disabled]="!itemForm.valid">
+                        <span *ngIf="!spinner">Save Product</span>
+                        <span class="spinner-border spinner-border-sm" role="status" *ngIf="spinner">
+                        </span>      
+                    </button>  
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
 </div>

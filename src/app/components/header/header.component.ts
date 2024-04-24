@@ -1,19 +1,26 @@
-import { Cart } from './../../interfaces/cart';
 import { Router } from '@angular/router';
 import { Iuser } from './../../interfaces/iuser';
-import { Items } from './../../interfaces/items';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
-import { Subscription, delay } from 'rxjs';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { cartCounterState, cartState, fadeEffectState, slideRightDefault} from 'src/app/animations';
+import { Category } from 'src/app/interfaces/category';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  animations: [
+    fadeEffectState,
+    cartState,
+    cartCounterState,
+    slideRightDefault
+  ]
 })
 export class HeaderComponent implements OnInit, OnDestroy{
+
+  @HostBinding('@fadeEffect') fadeEffect= true
   
-  catagories: any;
+  catagories: Category[]=[];
   user: Iuser = {} as Iuser;
   role: string =''
   cartCount:number =0;

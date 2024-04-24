@@ -3,25 +3,34 @@ import { Category } from './../../interfaces/category';
 import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { addCatagoryState, catagoryItemSlideState, showMsgState } from 'src/app/animations';
 
 @Component({
   selector: 'app-manage-items',
   templateUrl: './manage-items.component.html',
-  styleUrls: ['./manage-items.component.css']
+  styleUrls: ['./manage-items.component.css'],
+  animations: [
+    addCatagoryState,
+    catagoryItemSlideState,
+    showMsgState
+  ]
+
 })
 export class ManageItemsComponent implements OnInit {
 
   userForm!: FormGroup
   categories: Category[]=[]
-  items!: Items
+  items! : Items
   message: string = ''
-
+  showCatagory: boolean = false;
+  minusIcon = false
 // validators 
   get itemName() {return this.userForm.get('itemName')}
   get categoryId() {return this.userForm.get('categoryId')}
   get price() {return this.userForm.get('price')}
   get availableQty() { return this.userForm.get('availableQty')}
   get itemDescription(){ return this.userForm.get('itemDescription') }
+  get image() { return this.userForm.get('image') }
 
   constructor(private userService: UserService) { }
 
@@ -35,7 +44,7 @@ export class ManageItemsComponent implements OnInit {
       itemName: new FormControl('',Validators.required),
       itemDescription: new FormControl('',Validators.required),
       categoryId: new FormControl('',Validators.required),
-      image: new FormControl(''),
+      image: new FormControl('', Validators.required),
       price: new FormControl(0,Validators.required),
       availableQty: new FormControl(0,[Validators.required]),
       disabled: new FormControl(false)
@@ -59,6 +68,9 @@ export class ManageItemsComponent implements OnInit {
         this.userForm.value['image'] = filename
       }
       this.userService.addFirebaseCatagoryItem(form)
+      this.message = 'Add Product Successfully';
+      this.userService.getItems().push(this.userForm.value)
+      // this.userForm.reset();
       // this.items = this.userForm.value
 
       // this.userService.saveCategoryItm(this.items).subscribe({
@@ -70,6 +82,17 @@ export class ManageItemsComponent implements OnInit {
 
   reset(){
     this.userForm.reset()
+    this.message = ''
+  }
+
+  afterShow(){
+    if (!this.minusIcon){
+      this.minusIcon = true;
+    }else{
+      this.minusIcon = false;
+    }
+  }
+  closedMsg(){
     this.message = ''
   }
 

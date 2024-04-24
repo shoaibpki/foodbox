@@ -1,59 +1,128 @@
 <div class="container mt-3">
-  <div class="card bg-light">
-    <article class="card-body mx-auto" style="max-width: 400px">
-      <h4 class="card-title mt-3 text-center">Create Account</h4>
-      <p class="text-center">Get started with your free account</p>
-      <div class="alert alert-info alert-dismissible" *ngIf="errorMsg != ''">
-        {{errorMsg}}
+  <!-- <div class="clearfix"> -->
+    <div class="card bg-light w-50 mx-auto shadow-lg position-relative">
+      <div class="card-header"><h4>
+        Create Account
+        </h4>
       </div>
-      <form [formGroup]="userForm" (ngSubmit)="submit()">
-        <div class="form-group input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text"> <i class="bi bi-person"></i></span>
+      <div class="card-title">
+        <div class="text-center">Get started with your free account</div>
+        <div class="alert alert-info alert-dismissible position-absolute" style="z-index: 1; width: 100%;" role="alert" *ngIf="errorMsg != ''" @showMsg>
+          <strong> {{errorMsg}} </strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closedMsg()" ></button> 
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-7 p-0">
+            <article>
+              <form [formGroup]="userForm" (ngSubmit)="submit()">
+                <div class="form-group input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text text-success"> <i class="bi bi-person"></i></span>
+                  </div>
+                  <input
+                    formControlName="name"
+                    class="form-control"
+                    placeholder="Full name"
+                    type="text"
+                  />
+                </div>
+                <!-- form-group// -->
+                <div class="form-group input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text text-success">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                  </div>
+                  <input
+                    formControlName="email"
+                    class="form-control"
+                    placeholder="Email address"
+                    type="email"
+                  />
+                </div>
+                <!-- form-group end.// -->
+                <div class="form-group input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text text-success"> <i class="bi bi-lock-fill"></i> </span>
+                  </div>
+                  <input
+                    formControlName="password"
+                    class="form-control"
+                    placeholder="Create password"
+                    type="password"
+                  />
+                </div>
+                <!-- form-group// -->
+                <div class="form-group mt-1">
+                  <button #btnSubmit type="submit" class="form-control btn btn-block" [disabled]="!userForm.valid">
+                   <span *ngIf="!showSpinner">Create Account</span>  
+                   <span class="spinner-border spinner-border-sm" role="status" *ngIf="showSpinner">
+                   </span>
+                  </button>
+                </div>
+                <!-- form-group// -->
+                <p class="text-center">Have an account? <a routerLink="../login">Log In</a></p>
+              </form>
+            </article>
           </div>
-          <input
-            formControlName="name"
-            class="form-control"
-            placeholder="Full name"
-            type="text"
-          />
-        </div>
-        <!-- form-group// -->
-        <div class="form-group input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-                <i class="bi bi-envelope"></i>
-            </span>
+          <div class="col-sm-5">
+            <div class="border border-dark ms-2 ps-3 rounded-top rounded-end" style="background-color: rgb(236, 234, 206);">
+              <div>
+                <i><u>User Name</u></i> 
+                <div>
+                  <span class="position-absolute" *ngIf="!name?.errors?.['required']" @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                <span class="ps-2 ms-3"><i>Field required</i></span>
+                </div>
+                <div>
+                  <span class="position-absolute" *ngIf="!name?.errors?.['minlength'] && (name?.value != null && name?.value != '' )" @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                <span class="ps-2 ms-3"><i>Minimum length five</i></span>
+                </div>
+              </div>
+              <div>
+                <i><u>Email</u></i>
+                <div>
+                  <span class="position-absolute" *ngIf="!userForm.controls['email'].hasError('required')" @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                  <span class="ps-2 ms-3"><i>Field required</i></span>
+                </div>
+                <div>
+                  <span class="position-absolute" *ngIf="!userForm.controls['email'].hasError('email') && (userForm.controls['email'].value != null && userForm.controls['email'].value != '')" @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                  <span class="ps-2 ms-3"><i>Email Validated</i></span>
+                </div>
+              </div>
+              <div>
+                <i><u>Password</u></i>
+                <div>
+                  <span class="position-absolute" *ngIf="!password?.errors?.['required']" @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                <span class="ps-2 ms-3"><i>Field Required</i></span>
+                </div>
+                <div>
+                  <span class="position-absolute" *ngIf="!password?.errors?.['minlength'] && (password?.value != null && password?.value != '') " @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                  <span class="ps-2 ms-3"><i>Minimum length Six</i></span>
+                </div>
+                <div>
+                  <span class="position-absolute" *ngIf="!password?.errors?.['pattern'] &&(password?.value != null && password?.value != '')" @validationEffect>
+                    <i class="bi bi-check-lg text-success" style="font-size: larger;"></i>
+                  </span>
+                  <span class="ps-2 ms-3"><i>One Special Character</i></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <input
-            formControlName="email"
-            class="form-control"
-            placeholder="Email address"
-            type="email"
-          />
         </div>
-        <!-- form-group end.// -->
-        <div class="form-group input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text"> <i class="bi bi-lock-fill"></i> </span>
-          </div>
-          <input
-            formControlName="password"
-            class="form-control"
-            placeholder="Create password"
-            type="password"
-          />
-        </div>
-        <!-- form-group// -->
-        <div class="form-group mt-1">
-          <button type="submit" class="btn btn-primary btn-block">
-            Create Account
-          </button>
-        </div>
-        <!-- form-group// -->
-        <p class="text-center">Have an account? <a routerLink="../login">Log In</a></p>
-      </form>
-    </article>
-  </div>
-    <!-- card.// -->
+      </div>
+    </div>
 </div>

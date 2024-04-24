@@ -4,11 +4,15 @@ import { Iuser } from './../../interfaces/iuser';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { filter, map } from 'rxjs';
+import { deleteRecordState } from 'src/app/animations';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
+  animations: [
+    deleteRecordState
+  ]
 })
 export class CartComponent implements OnInit {
 
@@ -70,12 +74,6 @@ export class CartComponent implements OnInit {
   
   deleItem(event: any, index: any){
     let key = this.cart[index].$key;
-
-    // let target: any = event.target || event.srcElement || event.currentTarget
-    // let idAttr = target.attributes.id
-    // let id = idAttr.nodeValue
-    // this.userService.DeleteItemFromCard(id).subscribe()
-    // this.gtotal = this.gtotal - (this.cart[element].subtotal ?? 0)
     this.userService.removeFirebaseCartItem(key)
       .then(val => {
         console.log('Deleted Successfully!')
@@ -86,6 +84,12 @@ export class CartComponent implements OnInit {
         })
         this.cart.splice(index,1);
       });
+
+    // let target: any = event.target || event.srcElement || event.currentTarget
+    // let idAttr = target.attributes.id
+    // let id = idAttr.nodeValue
+    // this.userService.DeleteItemFromCard(id).subscribe()
+    this.gtotal = this.gtotal - (this.cart[index].subtotal ?? 0)
       
   }
   

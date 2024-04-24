@@ -22,10 +22,10 @@ const routes: Routes = [
   {path: 'cart/show', component: CartComponent},
   {path: 'checkout', component: CheckoutComponent},
   {path: '', component: HeaderComponent,
-    children:[
-      {path: 'productview', component: ItemsComponent},
-      {path: ':id', component: ItemDetailsComponent},
-      {path: '', component: ItemsComponent},
+  children:[
+    {path: 'productview', component: ItemsComponent},
+    {path: ':id', component: ItemDetailsComponent},
+    {path: '', component: ItemsComponent},
     ]},
   
   {path: '**', redirectTo: 'foodbox', pathMatch: 'full'},

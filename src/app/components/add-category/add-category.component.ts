@@ -2,17 +2,19 @@ import { Category } from './../../interfaces/category';
 import { UserService } from './../../services/user.service';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { addCatagoryState } from 'src/app/animations';
 
 @Component({
   selector: 'app-add-category',
   templateUrl: './add-category.component.html',
-  styleUrls: ['./add-category.component.css']
+  styleUrls: ['./add-category.component.css'],
 })
 export class AddCategoryComponent implements OnInit {
 
   categories: Category[]=[]
   cmessage: string = ''
   cat: Category = {} as Category
+  showCatagory: boolean = false;
 
   constructor(private userService: UserService) { }
 
@@ -24,6 +26,7 @@ export class AddCategoryComponent implements OnInit {
 
     // firebase database
     this.userService.addFirebaseCatagory(this.cat)
+    form.reset()
 
 
     // mysql database

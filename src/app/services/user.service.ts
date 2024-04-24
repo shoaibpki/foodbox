@@ -25,6 +25,7 @@ export class UserService {
   private _cartCount: number = 0
   private _catagories: Category[] = []
   private _sales: Sales[]= [];
+  loginMenu: boolean = false;
   public cartChanged: BehaviorSubject<number> = new BehaviorSubject<number>(this._cartCount)
   constructor(private http: HttpClient) { }
 
