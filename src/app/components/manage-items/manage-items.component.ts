@@ -70,7 +70,7 @@ export class ManageItemsComponent implements OnInit {
       this.userService.addFirebaseCatagoryItem(form)
       this.message = 'Add Product Successfully';
       this.userService.getItems().push(this.userForm.value)
-      // this.userForm.reset();
+      this.reset();
       // this.items = this.userForm.value
 
       // this.userService.saveCategoryItm(this.items).subscribe({

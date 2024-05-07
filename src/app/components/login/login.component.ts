@@ -2,7 +2,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { UserService } from './../../services/user.service';
 import { Iuser } from './../../interfaces/iuser';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   email!: string
   userForm!: FormGroup
   user!: Iuser
+  showSpinner: boolean = false;
+  @ViewChild('onClickDisabled') clickDisabled!: ElementRef<HTMLSelectElement>
 
   constructor(private userService: UserService,
     private router: Router
@@ -36,30 +38,35 @@ export class LoginComponent implements OnInit {
 
     let email = this.userForm.value['email'];
     let password = this.userForm.value['password'];
-    if (email === 'admin@abc.com' && password === '123'){
-      this.userService.setUser({
-        id: 0,
-        name: 'admin',
-        role: 'ADMIN',
-        password: '',
-        email: 'admin@abc.com'
-      });
-      this.userService.setIsLogin(true)
-      this.router.navigate(['']);
-    } else {
-      // firebase database
-      this.userService.loginFirebaseUser(email,password)
-        .then((userCredential) => {
-          this.userService.setIsLogin(true)
-          this.userService.getFirebaseUser(userCredential.user.uid);
-          this.userService.getFirebaseCartItems();
-          this.userService.loginMenu = false;
-          this.router.navigate(['']);
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    } 
+    this.showSpinner = true;
+    this.clickDisabled.nativeElement.disabled = true;
+    setTimeout(() => {
+      this.showSpinner = false
+      if (email === 'admin@abc.com' && password === '123'){
+        this.userService.setUser({
+          id: 0,
+          name: 'admin',
+          role: 'ADMIN',
+          password: '',
+          email: 'admin@abc.com'
+        });
+        this.userService.setIsLogin(true)
+        this.router.navigate(['']);
+      } else {
+        // firebase database
+        this.userService.loginFirebaseUser(email,password)
+          .then((userCredential) => {
+            this.userService.setIsLogin(true)
+            this.userService.getFirebaseUser(userCredential.user.uid);
+            this.userService.getFirebaseCartItems();
+            this.userService.loginMenu = false;
+            this.router.navigate(['']);
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }      
+    }, 3000);
     // mysql database...
     // this.userService.getLogin(this.userForm.value['email'],
     //   this.userForm.value['password']).subscribe({

@@ -12,7 +12,7 @@
             <div class="navbar-nav ms-auto me-5">
                 <a class="nav-item nav-link position-relative mx-3 p-0" role="button" *ngIf="islogin() && role === 'CUSTOMER'" routerLink="cart/show"><i class="bi bi-cart3 text-warning" style="font-size: 28px;"></i><span class="position-absolute cart bg-opacity-50 badge rounded-pill bg-warning text-light" *ngIf="cartCount != 0" @cartTrigger [@cartCounter]="cartCount>0? 'increase': 'decrease'" >{{cartCount}}</span></a>
                 <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="signup">Sign Up</a>
-                <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="login">Login</a>
+                <!-- <a class="nav-item nav-link" *ngIf="!islogin()" routerLink="login">Login</a> -->
                 <div class="nav-item dropdown" *ngIf="islogin()">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{user.name|titlecase}}</a>
                     <div class="dropdown-menu bg-warning">
@@ -23,29 +23,31 @@
             </div>
         </div>
     </nav>
-    <div class="row mt-5">
-        <div class="col-sm-3">
-            <div  id="sidemenu" class="card border-0  position-fixed">
-                <!-- <h4 class="card-header">
-                    Categories
-                </h4> -->
-                <ul class="list-group list-group-flush mt-5" [@slideRight]="catagories.length" >
-                    <li class="list-group-item" *ngFor="let catagory of catagories">
-                        <app-category [categories]="catagory"></app-category>
-                    </li>
-                </ul>
+    <div class="row mt-5 mb-0">
+        <div class="col-sm-3 bg-dark">
+            <div class="row ms-2 mt-5 position-fixed">
+                <div class="card scrollColor bg-dark border-0 overflow-auto" style="width: 300px;">
+                    <div class="card-body" style="max-width: 300px; max-height: 350px;">
+                        <ul class="list-group list-group-flush" [@slideRight]="catagories.length" >
+                            <li class=" bg-warning list-group-item" *ngFor="let catagory of catagories">
+                                <app-category [categories]="catagory"></app-category>
+                            </li>
+                        </ul>
+                    </div>
+                </div>               
+            </div>
+            <div class="row position-fixed ms-3 bottom-0" *ngIf="!islogin()" @fadeEffect>
+                <app-login></app-login>
             </div>
         </div>
-        <div class="col-sm-1">
-            <div class="d-flex mt-5 position-fixed" style="height: 500px;">
+        <!-- <div class="col-sm-1">
+            <div class="d-flex mt-5 vh-100 position-fixed">
                 <div class="vr"></div>
             </div>
-        </div>
-        <div class="col-sm-8">
-            <div class="row">
-                <app-carousel></app-carousel>
-            </div>
-            <div class="row">
+        </div> -->
+        <div class="col-sm-9">
+            <app-carousel></app-carousel>
+            <div class="row ms-5">
                 <router-outlet></router-outlet>
             </div>
         </div>
