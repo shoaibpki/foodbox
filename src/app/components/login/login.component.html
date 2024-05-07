@@ -33,6 +33,10 @@
     </div>
   </div>
 </nav> -->
+<div class="alert alert-danger alert-dismissible position-absolute" style="z-index: 1;" *ngIf="error != ''">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="reset()"></button>
+  {{error}} 
+</div>
 
 <!-- <div class="container-fluid mt-3"> -->
     <div class="card bg-dark border-0 mt-3">
@@ -76,10 +80,6 @@
           </div>
       </form>
       </article>
-      <div class="alert alert-danger alert-dismissible" *ngIf="error != ''">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong>Error!</strong>{{error}} 
-      </div>
     </div>
   <!-- </div> -->
   

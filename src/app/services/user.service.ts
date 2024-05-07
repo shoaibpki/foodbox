@@ -212,6 +212,7 @@ export class UserService {
     return this._user
   }
   getFirebaseSales(){
+    this._sales = [];
     let db = getDatabase();
     let uRef = ref(db, `users/${this._user.$key}/sales`);
     let $key = '';

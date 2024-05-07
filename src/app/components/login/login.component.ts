@@ -3,11 +3,15 @@ import { UserService } from './../../services/user.service';
 import { Iuser } from './../../interfaces/iuser';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { showMsgState } from 'src/app/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  animations: [
+    showMsgState
+  ]
 })
 export class LoginComponent implements OnInit {
 
@@ -34,6 +38,10 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  reset(){
+    this.userForm.reset();
+    this.error = '';
+  }
   submit(){
 
     let email = this.userForm.value['email'];
@@ -63,6 +71,8 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['']);
           })
           .catch((error) => {
+            this.clickDisabled.nativeElement.disabled = false;
+            this.error = 'Username or Password not found!'
             console.log(error)
           })
       }      
