@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Iuser } from './../../interfaces/iuser';
 import { UserService } from './../../services/user.service';
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { cartCounterState, cartState, fadeEffectState, slideRightDefault} from 'src/app/animations';
 import { Category } from 'src/app/interfaces/category';
 
@@ -19,7 +19,7 @@ import { Category } from 'src/app/interfaces/category';
 export class HeaderComponent implements OnInit, OnDestroy{
 
   @HostBinding('@fadeEffect') fadeEffect= true
-  
+  @ViewChild('fixedPosition') fixedPositioned!: ElementRef<HTMLSelectElement>
   catagories: Category[]=[];
   user: Iuser = {} as Iuser;
   role: string =''
@@ -76,6 +76,15 @@ export class HeaderComponent implements OnInit, OnDestroy{
       })
     }, 1000);
     this.router.navigate([''])
+  }
+
+  selecClassFixed(){
+    if (window.innerWidth > 768){
+      console.log(window.innerWidth)
+      return 'position-fixed';
+    }else {
+      return '';
+    }
   }
   
   ngOnDestroy(){

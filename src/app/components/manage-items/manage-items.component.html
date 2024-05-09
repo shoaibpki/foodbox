@@ -1,4 +1,4 @@
-<nav class="nav-bar">
+<nav class="nav-bar fixed-top">
     <ul>
         <li class="float-start" routerLinkActive="active">
             <a routerLink="/productview">FoodBox</a>
@@ -25,7 +25,7 @@
                 <h4>Add Product Form</h4>
             </div>
             <div class="card-title">
-                <div class="col col-sm-11 alert alert-info alert-dismissible position-absolute" style="z-index: 1;" *ngIf="message != ''" @showMsg>
+                <div class="col-sm-11 alert alert-info alert-dismissible position-absolute" style="z-index: 1;" *ngIf="message != ''" @showMsg>
                     <strong>{{message}}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closedMsg()" ></button> 
                 </div>
@@ -33,14 +33,14 @@
             <form [formGroup]="userForm" (submit)="submit(userForm.value)">
                 <div class="card-body">
                     <div class="row">
-                        <div class="form-group col col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label for="itemName" class="form-label">Item Name</label>
                             <input type="text" class="form-control" formControlName="itemName">
                             <div *ngIf="itemName?.invalid && (itemName?.dirty || itemName?.touched)" class="alert alert-danger">
                             <p *ngIf="itemName?.errors?.['required']">Item Name is required</p>
                             </div>
                         </div>
-                        <div class="form-group col col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label for="categoryId" class="form-label">Choose Category</label>
                             <select class="form-select" formControlName="categoryId" aria-label="Default select example" (click)="getCategory()">
                                 <option *ngFor="let category of categories" [ngValue]="category.id">  
@@ -53,14 +53,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label for="image" class="form-label">Select Image</label>
                             <input class="form-control" type="file" accept=".jpg, .png, .jpeg| image/*|MIME_type" formControlName="image">
                         </div>
                         <div *ngIf="image?.invalid && (image?.dirty || image?.touched)" class="alert alert-danger">
                             <p *ngIf="image?.errors?.['required']">image is required</p>
                         </div>
-                        <div class="form-group col col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label class="form-label" for="price">Price: </label>
                             <input class="form-control" formControlName="price" type="number">
                         </div>
@@ -78,14 +78,14 @@
                         </div>
                     </div>                        
                     <div class="row">
-                        <div class="form-group col col-sm-6">
+                        <div class="form-group col-sm-6">
                             <label for="availableQty" class="form-label">Set Item Quantity</label>
                             <input type="number" class="form-control" formControlName="availableQty">
                             <div *ngIf="availableQty?.invalid && (availableQty?.dirty || availableQty?.touched)" class="alert alert-danger">
                                 <p *ngIf="availableQty?.errors?.['required']">Quantity is required</p>
                             </div>
                             </div>
-                        <div class="form-group col col-sm-6 form-check form-switch mt-5">
+                        <div class="form-group col-sm-6 form-check form-switch mt-5">
                             <input type="checkbox" class="form-check-input" formControlName="disabled" role="switch">Is Disabled
                         </div>
                     </div>

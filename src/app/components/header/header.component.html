@@ -24,19 +24,19 @@
         </div>
     </nav>
     <div class="row mt-5 mb-0">
-        <div class="col-sm-3 bg-dark">
-            <div class="row ms-2 mt-5 position-fixed">
-                <div class="card scrollColor bg-dark border-0 overflow-auto" style="width: 300px;">
-                    <div class="card-body" style="max-width: 300px; max-height: 350px;">
+        <div #fixedPosition class="col-sm-3 h-100 bg-dark" [ngClass]="selecClassFixed()">
+            <div class="row ms-2 mt-5">
+                <div class="scrollColor border-0 overflow-auto" style="width: 300px;" *ngIf="selecClassFixed() != ''">
+                    <div style="max-width: 300px; max-height: 350px;">
                         <ul class="list-group list-group-flush" [@slideRight]="catagories.length" >
-                            <li class=" bg-warning list-group-item" *ngFor="let catagory of catagories">
+                            <li class=" bg-warning mb-1 list-group-item rounded" *ngFor="let catagory of catagories">
                                 <app-category [categories]="catagory"></app-category>
                             </li>
                         </ul>
                     </div>
                 </div>               
             </div>
-            <div class="row position-fixed ms-3 bottom-0" *ngIf="!islogin()" @fadeEffect>
+            <div class="row bottom-0" *ngIf="!islogin()" @fadeEffect>
                 <app-login></app-login>
             </div>
         </div>
@@ -45,9 +45,9 @@
                 <div class="vr"></div>
             </div>
         </div> -->
-        <div class="col-sm-9">
-            <app-carousel></app-carousel>
-            <div class="row ms-5">
+        <div class="col-sm-9 ms-auto">
+            <app-carousel *ngIf="selecClassFixed() != ''"></app-carousel>
+            <div class="row ms-auto">
                 <router-outlet></router-outlet>
             </div>
         </div>

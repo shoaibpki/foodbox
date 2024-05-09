@@ -63,7 +63,7 @@
                 </div>
                 <!-- form-group// -->
                 <div class="form-group mt-1">
-                  <button #btnSubmit type="submit" class="form-control btn btn-block" [disabled]="!userForm.valid">
+                  <button #btnSubmit type="submit" class="form-control btn btn-block btn-outline-success" [disabled]="!userForm.valid">
                    <span *ngIf="!showSpinner">Create Account</span>  
                    <span class="spinner-border spinner-border-sm" role="status" *ngIf="showSpinner">
                    </span>
