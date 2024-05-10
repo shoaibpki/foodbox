@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="row mb-0 mt-5">
-        <div class="col-sm card ms-2 mt-1" *ngFor=" let i = index; let item of items | filter: textSearch" [@selectRecord]="selectIndex != i? 'default': 'selected'">
+        <div class="col-sm-3 card ms-auto mt-1" *ngFor=" let i = index; let item of items | filter: textSearch" [@selectRecord]="selectIndex != i? 'default': 'selected'">
             <img style="width: 150px; height:150px;" src="assets/images/{{item.image}}" class="card-img-top mt-1 w-100 img-thumbnail" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{item.itemName}}</h5>
