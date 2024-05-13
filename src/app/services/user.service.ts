@@ -4,7 +4,7 @@ import { Cart } from './../interfaces/cart';
 import { Iuser } from './../interfaces/iuser';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
-import { Observable, catchError, Subject, tap, BehaviorSubject } from 'rxjs';
+import { Observable, catchError, Subject, tap, BehaviorSubject, isEmpty } from 'rxjs';
 import { Database, getDatabase, onValue, push, ref, remove, set, update } from "firebase/database"
 import { UserCredential, createUserWithEmailAndPassword, getAdditionalUserInfo, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { formatDate } from '@angular/common';
@@ -217,7 +217,7 @@ export class UserService {
     let uRef = ref(db, `users/${this._user.$key}/sales`);
     let $key = '';
     let sale: Cart[] = [];
-onValue(uRef, (snapshot) => {
+    onValue(uRef, (snapshot) => {
       snapshot.forEach((childSnap) => {
         $key = childSnap.key;
         childSnap.forEach((cart) => {
@@ -243,6 +243,7 @@ onValue(uRef, (snapshot) => {
   }
 
   addFirebaseCartItem(cart: Cart){
+    console.log(cart)
     let db = getDatabase();
     let $key = push(ref(db, `users/${this._user.$key}/cartItems`), cart).key;
     this._cart.push({ ...cart, $key })
@@ -288,7 +289,8 @@ onValue(uRef, (snapshot) => {
       categoryId: item.categoryId,
       availableQty: item.availableQty,
       price: item.price,
-      image: item.image
+      image: item.image,
+      id: item.id
     }
     let cRef = ref(db, `catagoryItems/${item.id}`);
     set(cRef,itm)
@@ -309,6 +311,18 @@ onValue(uRef, (snapshot) => {
         sale.userId= cart.userId
         sale.paymentMode= 'CREDIT_CARD'
         push(uRef,sale);
+        let cItem = this._items.find((item) => item.id == cart.itemId)!;
+        this._items.forEach((item) => {
+          if (item.id == cItem.id){
+            item.addCart = false;
+          }
+        })
+        if(cItem){
+          console.log(cItem);
+          cItem.availableQty = cItem.availableQty - cart.quantity;
+
+          this.updatefirebaseCatagoryItm(cItem);
+        }
     });
     remove(ref(db, `users/${this._user.$key}/cartItems`));
     this._cart = [];
@@ -323,6 +337,7 @@ onValue(uRef, (snapshot) => {
   logoutFireBaseUser(){
     let auth = getAuth();
     signOut(auth).then(() => console.log('Logout successfully!'));
+    this._user = {} as Iuser;
   }
 
 }

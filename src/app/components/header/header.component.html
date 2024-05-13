@@ -16,8 +16,8 @@
                 <div class="nav-item dropdown" *ngIf="islogin()">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">{{user.name|titlecase}}</a>
                     <div class="dropdown-menu bg-warning">
-                        <a class="dropdown-item" routerLink="logout" (click)="logout()">Logout</a>
-                        <a class="dropdown-item" routerLink="checkout">Purchases</a>
+                        <a class="dropdown-item" routerLink="logout">Logout</a>
+                        <a class="dropdown-item" routerLink="checkout" *ngIf="role === 'CUSTOMER'">Purchases</a>
                     </div>
                 </div>
             </div>

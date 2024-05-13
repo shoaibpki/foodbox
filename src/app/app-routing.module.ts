@@ -12,9 +12,11 @@ import { AppComponent } from './app.component';
 import { ItemsComponent } from './components/items/items.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LogoutComponent } from './components/logout/logout.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'logout', component:LogoutComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'manage/product', component: ManageProductComponent,
     canActivate: [NavidationGuard]},

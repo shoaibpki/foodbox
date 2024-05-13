@@ -79,8 +79,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   selecClassFixed(){
+    // for mobile view
     if (window.innerWidth > 768){
-      console.log(window.innerWidth)
       return 'position-fixed';
     }else {
       return '';

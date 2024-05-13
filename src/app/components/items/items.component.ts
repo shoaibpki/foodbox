@@ -26,6 +26,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
   textSearch: string=''
   isLogin!: boolean
   selectIndex: number = 0;
+  _role = ''
 
   constructor(
     private userService: UserService, 
@@ -36,12 +37,15 @@ export class ItemsComponent implements OnInit, AfterContentInit {
   
   ngOnInit(): void {
     this.isLogin = this.userService.getIsLogin()
+
     // firebase database
     this.items = this.userService.getItems()
-
+    console.log(this.items)
     if (this.isLogin) {
-      console.log(this.userService.getItems())
-      this.items = this.userService.getItems().filter((item) =>  !item.disabled)
+      this._role = this.userService.getUser().role;
+      if (this._role != 'ADMIN'){
+        this.items = this.userService.getItems().filter((item) =>  !item.disabled)
+      }
       // this.fillCart()
     }      
     
@@ -88,6 +92,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
       return
     } else {
         // firebase database
+        
         let cartItem: Items = this.items[i];
         this.cart.itemId = cartItem.id;
         this.cart.catagoryId = cartItem.categoryId

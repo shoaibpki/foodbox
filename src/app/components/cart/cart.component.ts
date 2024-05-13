@@ -104,7 +104,8 @@ export class CartComponent implements OnInit {
       // firebase database
       this.userService.paidFirebaseCart()
       this.cart = this.userService.getCart;
-      this.userService.setCartCount(this.userService.getCart.length)
+      this.userService.setCartCount(this.userService.getCart.length);
+      this.gtotal = 0;
 
       // mysql database
       // this.cart.forEach((c) => {

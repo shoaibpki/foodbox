@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           email: 'admin@abc.com'
         });
         this.userService.setIsLogin(true)
-        this.router.navigate(['']);
+        this.router.navigate(['productview']);
       } else {
         // firebase database
         this.userService.loginFirebaseUser(email,password)
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
             this.userService.getFirebaseUser(userCredential.user.uid);
             this.userService.getFirebaseCartItems();
             this.userService.loginMenu = false;
-            this.router.navigate(['']);
+            this.router.navigate(['productview']);
           })
           .catch((error) => {
             this.clickDisabled.nativeElement.disabled = false;

@@ -1,17 +1,15 @@
 <div class="container-fluid mt-3">
-    <div class="clearfix">
-        <div class="float-end">
+    <div class="col-sm-12 clearfix">
             <input
               type="text"
-              class="text"
+              class="text float-end"
               name="txtsrch"
               placeholder="Search items here..."
               [(ngModel)]="textSearch"
             />
-        </div>
     </div>
-    <div class="row mb-0 mt-5" [@selectRecord]=" pid != cid? 'default' : 'selected'" (@selectRecord.start)="startAnimation()">
-        <div class="col-sm-3 card ms-auto mt-1"  *ngFor="let i = index; let ci of categoryItems | filter: textSearch"  [@selectRecord]="selectIndex != i? 'default' : 'selected'">
+    <div class="row mb-0 mt-3" [@selectRecord]=" pid != cid? 'default' : 'selected'" (@selectRecord.start)="startAnimation()">
+        <div class="col-sm-3 card mt-1"  *ngFor="let i = index; let ci of categoryItems | filter: textSearch"  [@selectRecord]="selectIndex != i? 'default' : 'selected'">
             <img style="width: 150px; height:150px;" src="assets/images/{{ci.image}} "  class="card-img-top w-100 mt-1 img-thumbnail" alt="...">
             <div class="card-body">
                 <h5 class="card-title">{{ci.itemName}}</h5>
