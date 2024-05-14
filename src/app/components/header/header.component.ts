@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Iuser } from './../../interfaces/iuser';
 import { UserService } from './../../services/user.service';
 import { Component, OnInit, OnDestroy, HostBinding, ViewChild, ElementRef } from '@angular/core';
-import { cartCounterState, cartState, fadeEffectState, slideRightDefault} from 'src/app/animations';
+import { cartCounterState, cartState, fadeEffectState, itemsSlideState, sideMenuState, slideRightDefault} from 'src/app/animations';
 import { Category } from 'src/app/interfaces/category';
 
 @Component({
@@ -13,7 +13,9 @@ import { Category } from 'src/app/interfaces/category';
     fadeEffectState,
     cartState,
     cartCounterState,
-    slideRightDefault
+    slideRightDefault,
+    sideMenuState,
+    itemsSlideState
   ]
 })
 export class HeaderComponent implements OnInit, OnDestroy{
@@ -24,6 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   user: Iuser = {} as Iuser;
   role: string =''
   cartCount:number =0;
+  sideMenu: boolean = true;
 
   constructor(private userService: UserService, private router: Router ) {
    }
@@ -60,23 +63,23 @@ export class HeaderComponent implements OnInit, OnDestroy{
     return this.userService.getIsLogin()
   }
   
-  logout(){
-    setTimeout(() => {
-      this.userService.setIsLogin(false)
-      // firebase database
-      this.userService.logoutFireBaseUser();
+  // logout(){
+  //   setTimeout(() => {
+  //     this.userService.setIsLogin(false)
+  //     // firebase database
+  //     this.userService.logoutFireBaseUser();
 
-      // mysql database
-      // this.userService.getCart().splice(0, this.userService.getCart().length)
-      // this.user = {} as Iuser
-      // this.role=''
-      // this.userService.setUser(this.user)
-      this.userService.getItems().forEach(item => {
-        item.addCart = false
-      })
-    }, 1000);
-    this.router.navigate([''])
-  }
+  //     // mysql database
+  //     // this.userService.getCart().splice(0, this.userService.getCart().length)
+  //     // this.user = {} as Iuser
+  //     // this.role=''
+  //     // this.userService.setUser(this.user)
+  //     this.userService.getItems().forEach(item => {
+  //       item.addCart = false
+  //     })
+  //   }, 1000);
+  //   this.router.navigate([''])
+  // }
 
   selecClassFixed(){
     // for mobile view
@@ -86,6 +89,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
       return '';
     }
   }
+
   
   ngOnDestroy(){
     // this.subs.unsubscribe()

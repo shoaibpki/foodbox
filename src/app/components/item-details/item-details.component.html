@@ -15,8 +15,10 @@
                 <h5 class="card-title">{{ci.itemName}}</h5>
                 <p class="card-text">Available Quantity : {{ci.availableQty}}</p>
                 <p class="card-text">{{ci.itemDescription}}</p>
-                <button id="{{ci.id}}" class="btn btn-outline-warning" (click)="addToCart($event, i)" *ngIf="!ci.addCart">Add to Cart</button>
-                <button id="{{ci.id}}" class="btn btn-warning" (click)="removFromCart($event,i)" *ngIf="ci.addCart">Remove from Cart</button>
+                <div *ngIf="_role != 'ADMIN'">
+                    <button id="{{ci.id}}" class="btn btn-outline-warning" (click)="addToCart($event, i)" *ngIf="!ci.addCart">Add to Cart</button>
+                    <button id="{{ci.id}}" class="btn btn-warning" (click)="removFromCart($event,i)" *ngIf="ci.addCart">Remove from Cart</button>
+                </div>
             </div>
         </div>
     </div>

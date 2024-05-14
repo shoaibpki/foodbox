@@ -24,6 +24,7 @@ export class ItemDetailsComponent implements OnInit {
   cid: any;
   pid: any;
   selectIndex!: number;
+  _role = '';
 
   constructor(private userService: UserService, 
     private activatedRoute: ActivatedRoute) { }
@@ -40,9 +41,11 @@ export class ItemDetailsComponent implements OnInit {
   getItems(){
 
     // firebase database
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params) => { 
       this.cid =  params['id'];
-      this.categoryItems = this.userService.getItems().filter((item) => item.categoryId === this.cid && !item.disabled);
+      this._role = this.userService.getUser().role;
+      this.categoryItems = this.userService.getItems().filter((item) => item.    categoryId === this.cid && !item.disabled);
+        // this.fillCart()
     })
     // this.pid = this.cid;
     // mysql database

@@ -188,4 +188,44 @@ export const anyState = trigger('anystate',[
     // transition(':leave', 
     //     animate(100, style({opacity: 0}))
     // )
+]);
+
+export const sideMenuState = trigger('sideMenu',[
+    transition(':enter', [
+        style({
+            transform: 'translateX(-100%)'
+        }),
+        animate('500ms', style({
+            transform: 'translateX(0)'
+          })
+        )
+    ]),
+    transition(':leave',[
+        style({
+            transform: 'translateX(0)'
+        }),
+        animate('500ms', style({
+            transform: 'translateX(-100%)'
+          })
+        )
+    ])
+]);
+
+export const itemsSlideState = trigger('itemsSlide',[
+    transition('slideLeft => slideRight', [
+        style({
+          transform: 'translateX(-30%)'
+        }),
+        animate('500ms ease-out', style({
+          transform: 'translateX(0)'
+        }))
+      ]),
+      transition('slideRight => slideLeft', [
+        style({
+          transform: 'translateX(0)'
+        }),
+        animate('500ms ease-in', style({
+            transform: 'translateX(-30%)'
+        }))
+      ])    
 ])

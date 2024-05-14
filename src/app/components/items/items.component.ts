@@ -40,7 +40,6 @@ export class ItemsComponent implements OnInit, AfterContentInit {
 
     // firebase database
     this.items = this.userService.getItems()
-    console.log(this.items)
     if (this.isLogin) {
       this._role = this.userService.getUser().role;
       if (this._role != 'ADMIN'){
@@ -92,7 +91,7 @@ export class ItemsComponent implements OnInit, AfterContentInit {
       return
     } else {
         // firebase database
-        
+
         let cartItem: Items = this.items[i];
         this.cart.itemId = cartItem.id;
         this.cart.catagoryId = cartItem.categoryId
