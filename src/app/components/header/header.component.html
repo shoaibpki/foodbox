@@ -24,10 +24,10 @@
         </div>
     </nav>
     <div class="row mt-5">
-        <div #fixedPosition class="col-sm-3 h-100 bg-dark" [ngClass]="selecClassFixed()" *ngIf="sideMenu" @sideMenu >
+        <div #fixedPosition class="col-sm-3 h-100 bg-dark" [ngClass]="selecClassFixed()" *ngIf="sideMenu">
             <div class="row mt-5">
                 <div class="scrollColor m-auto border-0 overflow-auto" style="width: 300px;">
-                    <div style="max-width: 300px; max-height: 350px;">
+                    <div style="max-width: 300px; max-height: 300px;">
                         <ul class="list-group list-group-flush" [@slideRight]="catagories.length" >
                             <li class=" bg-warning mb-1 list-group-item rounded" *ngFor="let catagory of catagories">
                                 <app-category [categories]="catagory"></app-category>
@@ -45,7 +45,7 @@
                 <div class="vr"></div>
             </div>
         </div> -->
-        <div [@itemsSlide]="sideMenu? 'slideRight' : 'slideLeft'" [ngClass]="sideMenu? 'col-sm-9 ms-auto': 'col-sm-12'" >
+        <div [ngClass]="sideMenu? 'col-sm-9 ms-auto': 'col-sm-12'" >
             <app-carousel *ngIf="selecClassFixed() != ''"></app-carousel>
             <div class="row ms-auto">
                 <router-outlet></router-outlet>
