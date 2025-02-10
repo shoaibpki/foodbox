@@ -22,6 +22,8 @@ import { AddCategoryComponent } from './components/add-category/add-category.com
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutComponent } from './components/logout/logout.component'
+import { NgxStripeModule } from 'ngx-stripe';
+import { SuccesspayamentComponent } from './components/successpayament/successpayament.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,7 @@ import { LogoutComponent } from './components/logout/logout.component'
     AddCategoryComponent,
     CheckoutComponent,
     LogoutComponent,
+    SuccesspayamentComponent,
 
   ],
   imports: [
@@ -49,7 +52,8 @@ import { LogoutComponent } from './components/logout/logout.component'
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxStripeModule.forRoot()
   
   ],
   providers: [],
