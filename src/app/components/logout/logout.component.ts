@@ -29,7 +29,13 @@ export class LogoutComponent {
         this.userService.getItems().forEach(item => {
           item.addCart = false
         })
-        this.router.navigate([''])  
+        this.router.navigate(['']);
+        localStorage.removeItem('isLogin');
+        localStorage.removeItem('uid');
+        localStorage.removeItem('uname');
+        localStorage.removeItem('uemail');
+        localStorage.removeItem('role');
+      
       }, 0);
     }
 

@@ -1,3 +1,4 @@
+import { CancelledpaymentComponent } from './cancelledpayment/cancelledpayment.component';
 import { SuccesspayamentComponent } from './components/successpayament/successpayament.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { NavidationGuard } from './gaurd/navidation.guard';
@@ -12,17 +13,19 @@ import { ItemsComponent } from './components/items/items.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LogoutComponent } from './components/logout/logout.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'logout', component:LogoutComponent},
   {path: 'signup', component: SignupComponent},
-  {path: 'stripe-successful-payment', component: SuccesspayamentComponent},
+  {path: 'stripe-successful-payment', component: SuccesspayamentComponent, canActivate: [AuthGuard]},
+  {path: 'stripe-cancelled-payment', component: CancelledpaymentComponent, canActivate: [AuthGuard]},
   {path: 'manage/product', component: ManageProductComponent,
     canActivate: [NavidationGuard]},
   {path: 'product/add', component: ManageItemsComponent},
-  {path: 'cart/show', component: CartComponent},
-  {path: 'checkout', component: CheckoutComponent},
+  {path: 'cart/show', component: CartComponent, canActivate: [AuthGuard]},
+  {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
   {path: '', component: HeaderComponent,
   children:[
     {path: 'productview', component: ItemsComponent},

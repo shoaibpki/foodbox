@@ -5,7 +5,7 @@ import { Iuser } from './../interfaces/iuser';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, catchError, Subject, tap, BehaviorSubject, isEmpty } from 'rxjs';
-import { Database, getDatabase, onValue, push, ref, remove, set, update } from "firebase/database"
+import { Database, get, getDatabase, onValue, push, ref, remove, set, update } from "firebase/database"
 import { UserCredential, createUserWithEmailAndPassword, getAdditionalUserInfo, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { formatDate } from '@angular/common';
 import { Sales } from '../interfaces/sales';
@@ -156,7 +156,7 @@ export class UserService {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
-  getFirebaseCatagories(){
+  getFirebaseCatagories() : Category[] {
     this._catagories = [];
     let db = getDatabase();
     let uref = ref(db,`catagories`);
@@ -239,7 +239,6 @@ export class UserService {
         this._cart.push({...chilSnap.val(), $key })
       })
     }, { onlyOnce: true });
-    return this._cart;
   }
 
   addFirebaseCartItem(cart: Cart){
@@ -302,27 +301,28 @@ export class UserService {
     let uRef = ref(db, `users/${this._user.$key}/sales/${saleDate}`);
     let sale = {} as Cart;
     this._cart.forEach((cart) => {
-        sale.saleDate= saleDate;
-        sale.itemId= cart.itemId;
-        sale.quantity= cart.quantity
-        sale.price= cart.price
-        sale.subtotal= cart.subtotal
-        sale.catagoryId= cart.catagoryId
-        sale.userId= cart.userId
-        sale.paymentMode= 'CREDIT_CARD'
-        push(uRef,sale);
-        let cItem = this._items.find((item) => item.id == cart.itemId)!;
-        this._items.forEach((item) => {
-          if (item.id == cItem.id){
-            item.addCart = false;
-          }
-        })
-        if(cItem){
-          console.log(cItem);
-          cItem.availableQty = cItem.availableQty - cart.quantity;
-
-          this.updatefirebaseCatagoryItm(cItem);
+      console.log(cart)
+      sale.saleDate= saleDate;
+      sale.itemId= cart.itemId;
+      sale.quantity= cart.quantity
+      sale.price= cart.price
+      sale.subtotal= cart.quantity * cart.price
+      sale.catagoryId= cart.catagoryId
+      sale.userId= this._user.$key
+      sale.paymentMode= 'CREDIT_CARD'
+      console.log(sale)
+      push(uRef,sale);
+      let cItem = this._items.find((item) => item.id == cart.itemId)!;
+      this._items.forEach((item) => {
+        if (item.id == cItem.id){
+          item.addCart = false;
         }
+      })
+      if(cItem){
+        console.log(cItem);
+        cItem.availableQty = cItem.availableQty - cart.quantity;
+        this.updatefirebaseCatagoryItm(cItem);
+      }
     });
     remove(ref(db, `users/${this._user.$key}/cartItems`));
     this._cart = [];

@@ -69,6 +69,8 @@ export class LoginComponent implements OnInit {
             this.userService.getFirebaseCartItems();
             this.userService.loginMenu = false;
             this.router.navigate(['productview']);
+            localStorage.setItem('email', email);
+            localStorage.setItem('password', password);        
           })
           .catch((error) => {
             this.clickDisabled.nativeElement.disabled = false;

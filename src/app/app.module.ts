@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LogoutComponent } from './components/logout/logout.component'
 import { NgxStripeModule } from 'ngx-stripe';
 import { SuccesspayamentComponent } from './components/successpayament/successpayament.component';
+import { CancelledpaymentComponent } from './cancelledpayment/cancelledpayment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { SuccesspayamentComponent } from './components/successpayament/successpa
     CheckoutComponent,
     LogoutComponent,
     SuccesspayamentComponent,
+    CancelledpaymentComponent,
 
   ],
   imports: [

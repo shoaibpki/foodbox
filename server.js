@@ -30,7 +30,7 @@ app.post('/create-checkout-session', async(req, res) => {
             payment_method_types : ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${'http://localhost:4200'}/stripe-successful-payment?hash=hash`,
+            success_url: `${'http://localhost:4200'}/stripe-successful-payment`,
             cancel_url: `${'http://localhost:4200'}/stripe-cancelled-payment?hash=hash`,
             expand: ['payment_intent']
         });

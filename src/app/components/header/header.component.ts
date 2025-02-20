@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.user = this.userService.getUser()
       this.role = this.user.role;
       if (this.role === 'CUSTOMER'){
+        console.log(this.userService.getCart.length)
         this.userService.setCartCount(this.userService.getCart.length)
         this.userService.getItems().forEach((item) =>  {
           this.userService.getCart.forEach((cart) => {

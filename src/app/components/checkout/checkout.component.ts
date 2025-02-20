@@ -43,8 +43,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   sendEmail(){
-    let DATA: any = document.getElementById("pdfdata")
-    html2canvas(DATA).then((canvas) => {
+    // let DATA: any = document.getElementById("pdfdata")
+    html2canvas(this.pdfdata.nativeElement).then((canvas) => {
       let filewidth = 208
       let fileheight = (canvas.height * filewidth) / canvas.width
       const FILEURI = canvas.toDataURL('image/png')
